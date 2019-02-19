@@ -1,0 +1,56 @@
+---
+title: js中的this指针
+date: 2016-05-21 22:41:25
+description: 
+categories:
+ - javascript 
+tags: 
+ - this
+---
+
+
+## this指针
+   
+   因为工作原因一开始使用js时没有先学习就开始使用，所以是把很多java的理解带过来直接在js中套用的，所以一开始对 `this`的理解闹了很多问题。
+   
+   在js中 `this`的只想是跟方法的调用者绑定的。怎么理解这句话呢，很直接 一个方法是被谁调用的那他内部的 `this` 就指向谁。
+   es6的箭头函数例外
+   
+   “箭头函数”的this，总是指向定义时所在的对象w，而不是运行时所在的对象。
+
+    
+### this指向全局对象
+    
+  在全局作用域下调用的方法，或者在函数内没有指定调用的者的方法；
+  ```js
+    
+    function foo() {
+      console.log(this)
+    }
+    
+    var a = {
+    
+        callme:function() {
+          foo();
+        }
+        
+    }
+    
+    var bar = a.callme;
+    
+    bar();//window
+
+    //当然也可以用 call 或者 apply 直接修改this只想为window
+```  
+ ### 箭头函数的this
+ 
+   ```
+    const human = {
+         name:"person",
+         todo:()=>{
+            console.log(this.name)
+        }
+    }
+    
+    human.todo() //Window
+   ```

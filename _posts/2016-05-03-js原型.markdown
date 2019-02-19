@@ -1,0 +1,64 @@
+---
+title: js原型解析
+date: 2016-05-03 15:45:20
+description: 
+categories:
+ - javascript 
+tags: 
+ - 原型链
+ - js对象
+---
+
+## js原型
+
+### prototype和__proto__    
+    
+    prototype和__proto__是js原型的关键，他们是说明js中对象关系的特殊属性
+    js中只有方法才有prototype属性，普通的对象都有__proto__。
+    
+
+
+### 原型链
+
+   一般这么理解：访问一个对象的属性时，先在基本属性中查找，如果没有，再沿着 ` __proto__ `
+   这条链向上找，这就是原型链。
+   
+   ECMA引入了标准对象原型访问器` Object.getPrototype(object) `来判断对象的原型关系
+       
+```js
+var func =function(){
+                //this is a function
+            }
+    
+var obj = new Function();//用面向对象的语言解释就是 obj是类Function的一个对象，
+// Function也是他的构造函数
+    
+func.__proto__.constructor.prototype === Function.prototype)
+// true
+    
+// Function 的这个对象obj，它既是个对象又是个方法，js中一切皆对象（除了那个null）
+obj.__proto__.constructor.prototype === Function.prototype
+// true
+    
+//Function 对象本身没有toString方法，那么这个方法是从哪来的呢？
+//是从Object那继承的
+console.log(Function.hasOwnProperty('toString')) // false 
+//因为Function和Object 都是原生对象，我们无法从原型链上看到他们的关系，
+// 但是js规范中规定了Function与Object的关系，也表明了js中属性的传递
+
+console.log(Object.prototype.isPrototypeOf(Function)) 
+//true   
+
+
+```
+
+原型关系![图片]({{site.url}}/assets/images/prototype/1AE4DB0D-3A43-4616-8F48-F53C6268E12A.png)
+
+    
+   在JavaScript中，每个函数都有一个prototype属性，当一个函数被用作构造函数来创建实例时，
+    该函数的prototype属性值将被作为原型赋值给所有对象实例（也就是设置实例的__proto__属性），
+    也就是说，所有实例的原型引用的是函数的prototype属性。
+   
+   
+   
+### 
