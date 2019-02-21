@@ -60,7 +60,10 @@ module.exports = {
    
 ###模块
   
-  所有的文件被 ` loader `解析之后生成的都是模块
+  所有的文件被 ` loader `解析之后生成的都是模块，然后进入compile流程；
+
+##webpack打包的运行周期
+
 
 
 ##项目配置

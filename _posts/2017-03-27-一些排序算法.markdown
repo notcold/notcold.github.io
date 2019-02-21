@@ -11,3 +11,39 @@ tags:
 
 ###js实现
 
+```js
+function swap(arr,i,j) {
+  let temp = arr[i];
+  arr[i] = arr[j] 
+  arr[j] = temp;
+}
+
+const arr = [12,2,2323,878,324,90,228,2,953,12,34,12,71]
+//冒泡
+
+    for(let i=0 ; i<arr.length;i++){
+        for(let j=i+1;j<arr.length; j++){
+            if(arr[i]<arr[j]){
+                swap(arr,i,j)
+            }
+        }
+    }
+    
+    //选择排序
+    
+     for(let i=0 ; i<arr.length;i++){
+         let min = i;
+            for(let j=i+1;j<arr.length; j++){
+                if(arr[i]<arr[j]){
+                    min = j;
+                }
+            }
+           min!=i &&swap(arr,i,min)
+     }
+    
+    //快速插入排序
+    
+    for(let i=0 ; i<arr.length;i++){
+        
+    }
+```

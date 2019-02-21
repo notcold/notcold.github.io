@@ -10,11 +10,17 @@ css:
 5. rem
 6. 各种居中
 7. less sass scss postcss区别及了解
+  - 预处理器例如：LESS、Sass、Stylus，用来预编译Sass或less，增强了css代码的复用性，
+    还有层级、mixin、变量、循环、函数等，具有很方便的UI组件模块化开发能力，极大的提高工作效率。
+
+  - 后处理器例如：PostCSS，通常被视为在完成的样式表中根据CSS规范处理CSS，让其更有效；目前最常做的
+    是给CSS属性添加浏览器私有前缀，实现跨浏览器兼容性的问题。
+
 8. 浏览器器兼容 
 9. flex grid
 
 js:
-1. this相关:作⽤用域，改变this指向(call，apply，bind，实现bind函数)，需了解作用域栈。
+1. this相关:作⽤域，改变this指向(call，apply，bind，实现bind函数)，需了解作用域栈。
 
 ```js 
 
@@ -53,8 +59,10 @@ Object.assign(fn1,obj2)
 3.类型判断:typeof, instanceof, object.prototype.toString更多看lodash源码吧 
 
 4.事件委托，js对象类型⽐较(⽐如⽇日期⽐较) 
+
 5.声明以及优先级 
 6.遍历相关⽅方法，区别，性能 
+
 7.amd，cmd 
 
 CMD推崇依赖就近，AMD推崇依赖前置
@@ -93,7 +101,7 @@ define(function (requie, exports, module) {
 });
 ```
 8.对象相关:
-原型链 _ proto _ 和prototype的区别 new怎么实现的 object.create怎么实现的 继承怎么实现的 深拷⻉，浅拷贝 object.assign原理理
+原型链 _ proto _ 和prototype的区别 new怎么实现的 object.create怎么实现的 继承怎么实现的 深拷⻉，浅拷贝 object.assign原理
            
 9.异步相关:时间器机制，fetch，jsonp原理 
 ```js
@@ -172,6 +180,44 @@ function postData(url, data) {
   .then(response => response.json()) // parses response to JSON
 }
 
+
+```
+
+
+```js
+function superType(){
+    this.name = name;
+    this.colors = ["red","blue","green"];
+}
+
+superType.prototype.sayName = function(){
+    alert(this.name);
+};
+
+function subType(name,age){
+    //继承属性
+    superType.call(this,name);
+    this.age = age;
+}
+//继承方法
+subType.prototype = new superType();
+subType.prototype.constructor = subType(); //上一句导致重写了原型对象，所以要重新指定constructor的指向。
+subType.prototype.sayAge = function(){
+    alert(this.age);
+}
+
+var instance1 = new subType("Nico",20);
+instance1.colors.push("black");
+alert(instance1.colors);  //red,blue,green,black
+instance1.sayName();  //"Nico"
+instance1.sayAge();   //20 
+
+
+var instance2 = new subType("Greg",28);
+instance1.colors.push("black");
+alert(instance1.colors);  //red,blue,green
+instance1.sayName();  //"Greg"
+instance1.sayAge();   //28
 ```
 es6: 
 1.异步相关
@@ -209,7 +255,7 @@ proxy
 4. 箭头函数(改变this了)
 
 
-5. symbol(bind实现⽤用到了了)
+5. symbol(bind实现⽤用到了)
 
 6. set map(问到过我没答上来)
 Set是集合，没有重复值的数组
@@ -455,8 +501,6 @@ function dispatch(action) {
  react-router
  saga
  
-router 
-saga
 
 webpack:
 
