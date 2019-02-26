@@ -488,7 +488,7 @@ function dispatch(action) {
   }
 
 ```
-2.redux的问题(对于⼀一些情景不是很方便，如何解决)
+2.redux的问题(对于一些情景不是很方便，如何解决)
 
 3.redux源码 
 
@@ -582,3 +582,188 @@ const arr = [12,2,2323,878,324,90,228,2,953,12,34,12,71]
         
     }
 ```
+
+
+
+
+1.如何看待前端框架选型 ?
+
+2.vue的如何实现双向绑定的 ？
+setter getter绑定
+3.react 虚拟DOM 是什么? 如何实现? 说一下diff算法 ?
+构建一个描述页面dom节点的js 都没对象，对象包含了所有的dom信息
+节点 类型 属性 children 值
+
+4.工作中最出色的点, 和你最头疼的问题 如何解决的 ?
+
+5.react和vue的比较 ?
+
+6.React Diff 算法 ?
+tree diff
+component diff
+ele diff
+    
+7.观察者模式实现 ?
+redux subscribe 订阅后执行listener
+
+8.http报文头部有哪些字段? 有什么意义 ?
+```js
+:authority: www.cnblogs.com
+:method: GET
+:path: /mvc/blog/ViewCountCommentCout.aspx?postId=2612910
+:scheme: https
+accept: application/json, text/javascript, */*; q=0.01
+accept-encoding: gzip, deflate, br
+accept-language: zh-CN,zh;q=0.9,zh-TW;q=0.8,en;q=0.7
+cache-control: no-cache
+content-type: text
+cookie: __tins__1910329=%7B%22sid%22%3A%201526971609062%2C%20%22vd%22%3A%201%2C%20%22expires%22%3A%201526973409062%7D; __51cke__=; __51laig__=1; _ga=GA1.2.959517077.1526971609; CNZZDATA1000042812=35626807-1542683612-https%253A%252F%252Fwww.google.com%252F%7C1542683612; __utma=226521935.959517077.1526971609.1550661134.1550661134.1; __utmc=226521935; __utmz=226521935.1550661134.1.1.utmcsr=google|utmccn=(organic)|utmcmd=organic|utmctr=(not%20provided); sc_is_visitor_unique=rx7853846.1550661265.32527BE732E34F7710CA4365B8767DFB.1.1.1.1.1.1.1.1.1-10500913.1550468989.2.2.2.2.2.2.2.2.2; UM_distinctid=1690e86f72e128-05b0ff1cc33f43-36647105-232800-1690e86f72f6a2; CNZZDATA1258390419=1178611104-1550726413-https%253A%252F%252Fwww.google.com%252F%7C1550724635; _gid=GA1.2.1650419177.1551094097; _gat=1
+pragma: no-cache
+referer: https://www.cnblogs.com/
+user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36
+x-requested-with: XMLHttpRequest
+
+```
+
+
+9.移动端高清方案如何解决 ?
+2倍dppr 用2倍的像素图 
+
+10.webpack的原理, loader 和 plugin 是干什么的? 有自己手写过么 ?
+
+loader梳理所有的引用转换为模块
+plugin对模块进行处理
+
+11.简述从网页输入url到网页展示的过程发生了哪些事情 ?
+dns ip 服务器读取文件  浏览器接受内容解析 逐行扫描 样式树   dom数 渲染 js运行 
+12.SSR 和 客户端渲染有什么区别 , 
+
+
+vue是如何实现绑定事件的 ?
+```js
+//原生事件
+export function on (el, event, cb, useCapture) {
+  el.addEventListener(event, cb, useCapture)
+}
+```
+
+
+13简述公司node架构中容灾的实现 ?
+14.浏览器事件有哪些过程? 为什么一般在冒泡阶段, 而不是在捕获阶段注册监听? addEventListener 参数分别是什么 ?
+最大程度的兼容浏览器
+addEventListener('click',function(){},)
+15.面向对象如何实现? 需要复用的变量 怎么处理 ?
+
+
+16.移动端300ms延时的原因? 如何处理?
+为了检测双击
+fast-click
+17.主流框架的数据单向/双向绑定实现原理 ?
+
+二、AngularJs
+angularJs有脏检查机制，主要是依据$watch对象来监测数据是否更新。可以通过$apply和$digest两个函数来手动触发检测。这个和基于setter的检测机制不同，不能够做到在数据更新时执行操作，而只能通过事件入口执行检查，确认数据更新后再更新视图。
+
+一般情况下$apply和$digest执行效果相同，但是$apply可以带上参数可在变更后执行某个方法，并且$digest方法只触发当前作用域和它的子作用域上的监控，而$apply是触发整个作用域上的监控。所以在保证只变更当前或子级作用域的情况下，调用$digest性能会高出$apply。
+
+脏检查的性能问题一直被讨论，相较基于setter的检测机制来说，如果在处理循环更新DOM元素的情况，脏检查可以先检查所有的更新，构建好整个DOM结构，然后一次整体更新，相较于setter的分次更新来说性能反而会更高。
+
+三、Vue.js
+Vue.js是通过数据劫持结合发布者-订阅者模式的方式来实现的。用户操作会更改某个属性的值，而通过重写该属性的set方法，对数据进行劫持监听，可以在每次值更新的时候，执行重写的set方法内的指定操作。这里的指定操作即是判断数据是否更新，是否需要更新视图。如果确认更新则修改当前视图。
+
+四、React
+React本身并没有提到双向绑定的概念，但是可以基于setState和onChange事件实现数据层于视图层的同步更新。例如每次修改表单值时执行onChange事件，调用setState更新数据层，从而更新视图。
+
+18.React vue区别 virsualDOM实现
+
+
+
+19.DIFF算法为什么是O(n)复杂度而不是O(n^3)
+
+树节点与标记节点比较
+
+20.http code码?
+`
+    	简单版
+      	[
+      		100  Continue	继续，一般在发送post请求时，已发送了http header之后服务端将返回此信息，表示确认，之后发送具体参数信息
+      		200  OK 		正常返回信息
+      		201  Created  	请求成功并且服务器创建了新的资源
+      		202  Accepted 	服务器已接受请求，但尚未处理
+      		301  Moved Permanently  请求的网页已永久移动到新位置。
+      		302 Found  		临时性重定向。
+      		303 See Other  	临时性重定向，且总是使用 GET 请求新的 URI。
+      		304  Not Modified 自从上次请求后，请求的网页未修改过。
+    
+      		400 Bad Request  服务器无法理解请求的格式，客户端不应当尝试再次使用相同的内容发起请求。
+      		401 Unauthorized 请求未授权。
+      		403 Forbidden  	禁止访问。
+      		404 Not Found  	找不到如何与 URI 相匹配的资源。
+    
+      		500 Internal Server Error  最常见的服务器端错误。
+      		503 Service Unavailable 服务器端暂时无法处理请求（可能是过载或维护）。
+      	]
+`
+
+21.移动端rem布局如何实现? 简述原理?
+  跟节点设置font-size ，计算文字大小  以750宽  100/750 = fs /设计稿取值
+如果dpr=1(如电脑端），则html的font-size为50px，也就是 1rem = 50px
+如果dpr=2(如iphone 5 和 6），则html的font-size为100px，也就是 1rem = 100px
+如果dpr=3(如iphone 6 sp），则html的font-size为150px，也就是 1rem = 150px
+如果dpr为其他值，即便不是整数，如3.4 , 也是一样直接将dpr 乘以 50 。
+
+22.JSbridge原理, js和native是如何通信的?
+ios：拦截指定类型的WEBVIEW请求方式，  eval(code)
+andorid：拦截指定类型的WEBVIEW请求方式， 
+
+23.Rollup和webpack区别, treeshaking是什么?
+Rollup偏向于js库   去掉冗余代码
+24.TCP三次握手的过程, get post请求的区别 ?
+
+
+get请求小 不安全 
+
+25.静态文件的浏览器缓存如何实现?
+Cache-Control
+
+26.前端跨域方案
+jsonp
+allow-access-control
+postMessage
+27.http 请求包含哪些字段 分别是什么意思
+
+28.js 有哪些数据类型 如何判断? null 和 undefined区别 应用场景?
+29.new String('a') 和 'a' 是一样的么?
+对象和简单数据
+30.移动端如何实现下拉到底部 跟随移动 结束后回弹的动画?
+
+31.移动端如何优化首页白屏时间过长 ?
+骨骼屏
+32.ES6 generator函数简述
+```js
+function *f() {
+  yield '123' 
+}
+f().next();
+```
+33.数组去重实现?
+转为set集合
+for循环判断
+
+34.js浮点数运算不精确 如何解决?
+小数部分分开转换为整数运算，最后在加回去
+
+35.公司的前端工程化实践
+36.DOM基础知识,添加元素,删除元素等等...
+append()
+var list=document.getElementById("myList");
+list.removeChild(list.childNodes[0]);
+37.DOM节点类型
+文本类型，普通类型，替换类型  属性
+38.正则表达式如何匹配一段url ?在正则表达式中有哪几种作用?
+
+/(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?/.test('http://heml.we12.eee')
+
+http://home.sss.sss:port/path/?
+
+39.移动端优化方式? 离线包是如何实现的?
+https://www.jianshu.com/p/0a65c3d03591
