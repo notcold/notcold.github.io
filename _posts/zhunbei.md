@@ -1,14 +1,22 @@
 css:
 1. position
 
-2. 盒模型(BFC)
-
+2. 盒模型    (BFC)
+  margin border padding content 
+  
+  BFC 隔离样式影响
 3. 动画
 
 4. viewport
 
 5. rem
+动态计算根节点font-size
+```js
+<script>!function(e){function t(a){if(i[a])return i[a].exports;var n=i[a]={exports:{},id:a,loaded:!1};return e[a].call(n.exports,n,n.exports,t),n.loaded=!0,n.exports}var i={};return t.m=e,t.c=i,t.p="",t(0)}([function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var i=window;t["default"]=i.flex=function(e,t){var a=e||100,n=t||1,r=i.document,o=navigator.userAgent,d=o.match(/Android[\S\s]+AppleWebkit\/(\d{3})/i),l=o.match(/U3\/((\d+|\.){5,})/i),c=l&&parseInt(l[1].split(".").join(""),10)>=80,p=navigator.appVersion.match(/(iphone|ipad|ipod)/gi),s=i.devicePixelRatio||1;p||d&&d[1]>534||c||(s=1);var u=1/s,m=r.querySelector('meta[name="viewport"]');m||(m=r.createElement("meta"),m.setAttribute("name","viewport"),r.head.appendChild(m)),m.setAttribute("content","width=device-width,user-scalable=no,initial-scale="+u+",maximum-scale="+u+",minimum-scale="+u),r.documentElement.style.fontSize=a/2*s*n+"px"},e.exports=t["default"]}]);  flex(100, 1);</script>
+```
+
 6. 各种居中
+
 7. less sass scss postcss区别及了解
   - 预处理器例如：LESS、Sass、Stylus，用来预编译Sass或less，增强了css代码的复用性，
     还有层级、mixin、变量、循环、函数等，具有很方便的UI组件模块化开发能力，极大的提高工作效率。
@@ -17,6 +25,7 @@ css:
     是给CSS属性添加浏览器私有前缀，实现跨浏览器兼容性的问题。
 
 8. 浏览器器兼容 
+
 9. flex grid
 
 js:
@@ -58,9 +67,11 @@ Object.assign(fn1,obj2)
 
 3.类型判断:typeof, instanceof, object.prototype.toString更多看lodash源码吧 
 
-4.事件委托，js对象类型⽐较(⽐如⽇日期⽐较) 
+4.事件委托，js对象类型⽐较(⽐如日期⽐较) 
 
 5.声明以及优先级 
+a =1
+var a;变量提升
 6.遍历相关⽅方法，区别，性能 
 
 7.amd，cmd 
@@ -102,6 +113,19 @@ define(function (requie, exports, module) {
 ```
 8.对象相关:
 原型链 _ proto _ 和prototype的区别 new怎么实现的 object.create怎么实现的 继承怎么实现的 深拷⻉，浅拷贝 object.assign原理
+
+class A{}
+class B extends A{}
+B.prototype.__proto__ === A
+false
+B.prototype.__proto__ === A.prototype
+true
+A.prototype.__proto__ === Object.prototype
+true
+Object.prototype.__proto__ === null
+true
+
+Object.create()方法创建一个新对象，使用现有的对象来提供新创建的对象的__proto__。 （请打开浏览器控制台以查看运行结果。）
            
 9.异步相关:时间器机制，fetch，jsonp原理 
 ```js
@@ -134,6 +158,7 @@ define(function (requie, exports, module) {
 
 10.null undefined区别
 11. 安全性:xss，crsof之类的
+
 12. 函数式编程
 ```js
 function add(a , b) {
@@ -220,6 +245,28 @@ instance1.sayName();  //"Greg"
 instance1.sayAge();   //28
 ```
 es6: 
+Object.prototype.objCustom = function () {}; 
+Array.prototype.arrCustom = function () {};
+
+let iterable = [3, 5, 7];
+iterable.foo = "hello";
+
+for (let i in iterable) {
+  console.log(i); // logs 0, 1, 2, "foo", "arrCustom", "objCustom"
+}
+
+
+for (let i of iterable) {
+  console.log(i); // logs 3, 5, 7
+}
+
+for...in 效率是最低的。这是因为 for...in 有一些特殊的要求，包括：
+1. 遍历所有属性，不仅是 own properties 也包括原型链上的所有属性。
+2. 忽略 enumerable 为 false 的属性。
+3. 必须按特定顺序遍历，先遍历所有数字键，然后按照创建属性的顺序遍历剩下的。
+所以请优先使用 for...of 。
+Object。entries() //[key,val]
+
 1.异步相关
 promise(恐怖哲源码最好看下) 
 
@@ -248,14 +295,24 @@ f()
 proxy
 
     setter和getter
+[]数据需要额外劫持方法
 
-2. const，let 以及区别 (const，let都是声明的时候要赋值，⽽而且const不可以重新赋值，但是对于对象可以对象内变量重新赋值)
+2. const，let 以及区别 (const，let都是声明的时候要赋值，而且const不可以重新赋值，但是对于对象可以对象内变量重新赋值)
 3. 解构
 
+
 4. 箭头函数(改变this了)
+1.不绑定this
+在箭头函数出现之前，每个新定义的函数都有其自己的 this 值
 
+2.使用call()和apply()调用
+由于 this 已经在词法层面完成了绑定，通过 call() 或 apply() 方法调用一个函数时，只是传入了参数而已，对 this 并没有什么影响：
 
-5. symbol(bind实现⽤用到了)
+3.箭头函数不绑定arguments,取而代之用rest参数…解决
+4.箭头函数不能用作构造器，和 new 一起用就会抛出错误。
+  
+
+5. symbol(bind实现用到了)
 
 6. set map(问到过我没答上来)
 Set是集合，没有重复值的数组
@@ -270,6 +327,11 @@ export / import : 只有es6 支持的导出引入
 module.exports / exports: 只有 node 支持的导出
 
 9. import export
+
+10.script异步
+
+async 脚本在script文件下载完成后会立即执行,并且其执行时间一定在 window的load事件触发之前。这意味着多个async脚本很可能不会按其在页面中的出现次序顺序执行。
+与此相对，浏览器确保多个 defer 脚本按其在HTML页面中的出现顺序依次执行,且执行时机为DOM解析完成后，document的DOMContentLoaded 事件触发之前。
 
 react: 
 1.声明周期 
@@ -410,13 +472,62 @@ function flushControlled(fn) {
 3.props.children 
 组件的所有子节点
 如果当前组件没有子节点，它就是 undefined ;如果有一个子节点，数据类型是 object ；如果有多个子节点，数据类就是 array 。
+
 4.组件化(纯函数组件，受控⾮受控组件，⾼阶组件) 
 
  在受控组件中，表单数据由 React 组件处理。如果让表单数据由 DOM 处理时，替代方案为使用非受控组件。
 高阶组件就是一个函数，且该函数接受一个组件作为参数，并返回一个新的组件。
 const EnhancedComponent = higherOrderComponent(WrappedComponent);
 
+高阶组件的缺点
+高阶组件也有一系列的缺点，首先是被包裹组件的静态方法会消失，这其实也是很好理解的，我们将组件当做参数传入函数中，返回的已经不是原来的组件，而是一个新的组件，原来的静态方法自然就不存在了。如果需要保留，我们可以手动将原组件的方法拷贝给新的组件，或者使用hoist-non-react-statics之类的库来进行拷贝。
+```js
+function HOC(warpcomponent) {
+  return Component(){
+      render(){
+          return warpcomponent
+      }
+  }
+}
+
+```
+
+pureComponent
+会比较 Object.keys(state | props) 的长度是否一致，每一个 key是否两者都有，并且是否是一个引用，也就是只比较了第一层的值，确实很浅，所以深层的嵌套数据是对比不出来的。
+
 5.react16相关新API:
+
+
+ componentDidCatch(error, info) {
+    this.setState({ hasError: true });
+
+    logErrorToMyService(error, info);
+  }
+
+
+Error Boundaries
+React16 支持了更优雅的错误处理策略，如果一个错误是在组件的渲染或者生命周期方法中被抛出，整个组件结构就会从根节点中卸载，而不影响其他组件的渲染，可以利用 error boundaries 进行错误的优化处理。
+
+
+Strict Mode
+StrictMode 可以在开发阶段开启严格模式，发现应用存在的潜在问题，提升应用的健壮性，其主要能检测下列问题：
+
+识别被标志位不安全的生命周期函数
+对弃用的 API 进行警告
+探测某些产生副作用的方法
+检测是否使用 findDOMNode
+检测是否采用了老的 Context API
+
+将 componentWillMount、componentWillReceiveProps 和 componentWillUpdate 标记为不安全的方法
+
+新的生命周期
+
+static getDerivedStateFromProps(nextProps, prevState)
+getDerivedStateFromProps(nextProps, prevState) 其作用是根据传递的 props 来更新 state。它的一大特点是无副作用，由于处在 Render Phase 阶段，所以在每次的更新都会触发该函数， 在 API 设计上采用了静态方法，使其无法访问实例、无法通过 ref 访问到 DOM 对象等，保证了该函数的纯粹高效。
+
+getSnapshotBeforeUpdate(prevProps, prevState)
+getSnapshotBeforeUpdate(prevProps, prevState) 会在组件更新之前获取一个 snapshot，并可以将计算得的值或从 DOM 得到的信息传递到 componentDidUpdate(prevProps, prevState, snapshot) 函数的第三个参数，常常用于 scroll 位置定位等场景。
+
 filber原理
 
 portals   createPortal 的出现为 弹窗、对话框 等脱离文档流的组件开发提供了便利
@@ -425,8 +536,12 @@ portals   createPortal 的出现为 弹窗、对话框 等脱离文档流的组�
 并且通过 createPortal 渲染的 DOM，事件可以从 portal 的入口端冒泡上来，如果入口端存在 onDialogClick 等事件，createPortal 中的 DOM 也能够被调用到。
 
 context  
+
+getChildContext()
+
  componentDidCatch  
 Fragment 组件其作用是可以将一些子元素添加到 DOM tree 上且不需要为这些元素提供额外的父节点，相当于 render 返回数组元素。
+
 
 6.react-router，react-router-dom原理以及使⽤
  
@@ -449,7 +564,7 @@ reducer 操作
 createStore 创建 store
     subscribe redux插件通过该方法监听state变化， 例如saga监听对应的action操作
     
-
+(store) =>(next)=>(action)=>{//do something}
 applyMiddleware 把中间件与store绑定 ，在dispatch的时候会让action流过中间件
 ```js
 //核心方法，dispat方法会让action流过所有绑定的reducer，以及applyMiddleware添加的中间件
@@ -495,7 +610,7 @@ function dispatch(action) {
 4.redux优化(middleware，封装请求中间件是因为redux不能处理异步的state) 
 
 5.react-redux (redux,connect) 
-  WrappedComponent 关联store和组件的props
+  WrappedComponent 通过context关联store和组件的props
   
 6.redux常用middleware
  react-router
@@ -530,14 +645,25 @@ DNS解析
 ip访问
 
 2. http头具体每个都干什么的
+cache-control
+mime-type
+content-type
+expries
+accept
+origin
 
 3. 常⽤用状态码
+301
+302
 404
 200
 500
 504
 502
 4. get post put之类
+
+PUT：client对一个URI发送一个Entity，服务器在这个URI下如果已经又了一个Entity，那么此刻服务器应该替换成client重新提交的，也由此保证了PUT的幂等性。如果服务器之前没有Entity ，那么服务器就应该将client提交的放在这个URI上。总结一个字：PUT。对的，PUT的方法就是其字面表意，将client的资源放在请求URI上。对于服务器到底是创建还是更新，由服务器返回的HTTP Code来区别。
+
 
 5. 跨域 
 
@@ -546,6 +672,7 @@ jsonp
 postmessage
 
 6. 缓存
+
 
 git:相关常用的会问 
 git commit 
@@ -576,7 +703,7 @@ const arr = [12,2,2323,878,324,90,228,2,953,12,34,12,71]
            min!=i &&swap(arr,i,min)
      }
     
-    //快速插入排序
+    //插入排序
     
     for(let i=0 ; i<arr.length;i++){
         
@@ -605,6 +732,8 @@ ele diff
     
 7.观察者模式实现 ?
 redux subscribe 订阅后执行listener
+
+
 
 8.http报文头部有哪些字段? 有什么意义 ?
 ```js
@@ -767,3 +896,8 @@ http://home.sss.sss:port/path/?
 
 39.移动端优化方式? 离线包是如何实现的?
 https://www.jianshu.com/p/0a65c3d03591
+
+
+
+
+fetch和ajax
