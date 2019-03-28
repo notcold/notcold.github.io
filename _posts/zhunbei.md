@@ -1,12 +1,14 @@
 css:
 1. position
-
+static  relative  absolute  fixed  sticky粘性
 2. 盒模型    (BFC)
   margin border padding content 
   
   BFC 隔离样式影响
+  
 3. 动画
-
+animation:动画名 时间   次数
+@keyframes name
 4. viewport
 
 5. rem
@@ -16,6 +18,11 @@ css:
 ```
 
 6. 各种居中
+
+绝对定位加transform
+flex
+table设置居中
+3层div嵌套
 
 7. less sass scss postcss区别及了解
   - 预处理器例如：LESS、Sass、Stylus，用来预编译Sass或less，增强了css代码的复用性，
@@ -61,6 +68,10 @@ console.log(this.a)}}
 var fn1=fn.bind(obj)
 
 Object.assign(fn1,obj2)
+
+
+JSON.stringify({a:123,b:'123123',c:{hello:'world'}}) //"{"a":123,"b":"123123","c":{"hello":"world"}}"
+
 ```
 
 2. js定时器器⼯作机制， [军哥的博文](http://www.ruanyifeng.com/blog/2014/10/event-loop.html) [juejin](https://juejin.im/entry/5847c0f2a22b9d007aad2bdf) [blog](http://www.alloyteam.com/2016/05/javascript-timer/) [boke](https://www.jianshu.com/p/61d42574bf0d)
@@ -73,7 +84,7 @@ Object.assign(fn1,obj2)
 a =1
 var a;变量提升
 6.遍历相关⽅方法，区别，性能 
-
+while for()  for in  for of  forEach
 7.amd，cmd 
 
 CMD推崇依赖就近，AMD推崇依赖前置
@@ -116,6 +127,8 @@ define(function (requie, exports, module) {
 
 class A{}
 class B extends A{}
+B.__proto__ === A
+true
 B.prototype.__proto__ === A
 false
 B.prototype.__proto__ === A.prototype
@@ -159,6 +172,8 @@ Object.create()方法创建一个新对象，使用现有的对象来提供新�
 10.null undefined区别
 11. 安全性:xss，crsof之类的
 
+
+
 12. 函数式编程
 ```js
 function add(a , b) {
@@ -180,7 +195,11 @@ function addCurry(a) {
  Controller 作为一种中介者，它负责控制视图对象View和模型对象Model之间的交互。如在Struts中，Action就可以作为JSP页面与业务对象之间的中介者。
  
 14. cookie，localStorage，sessionStorage使⽤及区别
-
+特性	Cookie	localStorage	sessionStorage
+数据的生命期	一般由服务器生成，可设置失效时间。如果在浏览器端生成Cookie，默认是关闭浏览器后失效	除非被清除，否则永久保存	仅在当前会话下有效，关闭页面或浏览器后被清除
+存放数据大小	4K左右	一般为5MB
+与服务器端通信	每次都会携带在HTTP头中，如果使用cookie保存过多数据会带来性能问题	仅在客户端（即浏览器）中保存，不参与和服务器的通信
+易用性	需要程序员自己封装，源生的Cookie接口不友好	源生接口可以接受，亦可再次封装来对Object和Array有更好的支持
 
 
 fetch
@@ -226,7 +245,7 @@ function subType(name,age){
 }
 //继承方法
 subType.prototype = new superType();
-subType.prototype.constructor = subType(); //上一句导致重写了原型对象，所以要重新指定constructor的指向。
+subType.prototype.constructor = subType; //上一句导致重写了原型对象，所以要重新指定constructor的指向。
 subType.prototype.sayAge = function(){
     alert(this.age);
 }
@@ -243,6 +262,15 @@ instance1.colors.push("black");
 alert(instance1.colors);  //red,blue,green
 instance1.sayName();  //"Greg"
 instance1.sayAge();   //28
+
+
+
+//组合寄生式继承
+    function inheritPrototype(subType,superType){
+        var prototype = object(superType.prototype);    //创建对象
+        prototype.constructor = subType;    //增强对象
+        subType.prototype = prototype;    //指定对象
+    }
 ```
 es6: 
 Object.prototype.objCustom = function () {}; 
@@ -329,6 +357,8 @@ module.exports / exports: 只有 node 支持的导出
 9. import export
 
 10.script异步
+    
+    defer是“渲染完再执行”，async是“下载完就执行”
 
 async 脚本在script文件下载完成后会立即执行,并且其执行时间一定在 window的load事件触发之前。这意味着多个async脚本很可能不会按其在页面中的出现次序顺序执行。
 与此相对，浏览器确保多个 defer 脚本按其在HTML页面中的出现顺序依次执行,且执行时机为DOM解析完成后，document的DOMContentLoaded 事件触发之前。
@@ -653,13 +683,13 @@ accept
 origin
 
 3. 常⽤用状态码
-301
-302
-404
-200
-500
-504
-502
+301 永久重定向
+302 重定向
+404 not found
+200 
+500 服务器出错
+504 超时
+502 服务器gg
 4. get post put之类
 
 PUT：client对一个URI发送一个Entity，服务器在这个URI下如果已经又了一个Entity，那么此刻服务器应该替换成client重新提交的，也由此保证了PUT的幂等性。如果服务器之前没有Entity ，那么服务器就应该将client提交的放在这个URI上。总结一个字：PUT。对的，PUT的方法就是其字面表意，将client的资源放在请求URI上。对于服务器到底是创建还是更新，由服务器返回的HTTP Code来区别。
@@ -765,7 +795,7 @@ plugin对模块进行处理
 
 11.简述从网页输入url到网页展示的过程发生了哪些事情 ?
 dns ip 服务器读取文件  浏览器接受内容解析 逐行扫描 样式树   dom数 渲染 js运行 
-12.SSR 和 客户端渲染有什么区别 , 
+12.SSR 和 客户端渲染有什么区别 
 
 
 vue是如何实现绑定事件的 ?
@@ -781,6 +811,10 @@ export function on (el, event, cb, useCapture) {
 14.浏览器事件有哪些过程? 为什么一般在冒泡阶段, 而不是在捕获阶段注册监听? addEventListener 参数分别是什么 ?
 最大程度的兼容浏览器
 addEventListener('click',function(){},)
+父--捕获
+子--（捕获或者冒泡，看添加顺序）
+父--冒泡
+
 15.面向对象如何实现? 需要复用的变量 怎么处理 ?
 
 
@@ -802,7 +836,7 @@ Vue.js是通过数据劫持结合发布者-订阅者模式的方式来实现的�
 四、React
 React本身并没有提到双向绑定的概念，但是可以基于setState和onChange事件实现数据层于视图层的同步更新。例如每次修改表单值时执行onChange事件，调用setState更新数据层，从而更新视图。
 
-18.React vue区别 virsualDOM实现
+18.React vue区别 virtualDOM实现
 
 
 
@@ -860,13 +894,17 @@ allow-access-control
 postMessage
 27.http 请求包含哪些字段 分别是什么意思
 
+请求行
+请求头
+请求体
+
 28.js 有哪些数据类型 如何判断? null 和 undefined区别 应用场景?
 29.new String('a') 和 'a' 是一样的么?
 对象和简单数据
 30.移动端如何实现下拉到底部 跟随移动 结束后回弹的动画?
 
 31.移动端如何优化首页白屏时间过长 ?
-骨骼屏
+骨骼屏，SSR
 32.ES6 generator函数简述
 ```js
 function *f() {
@@ -882,6 +920,13 @@ for循环判断
 小数部分分开转换为整数运算，最后在加回去
 
 35.公司的前端工程化实践
+
+    sonar代码检测
+    webpack模块化
+    组件化
+    自动化打包发布
+    
+
 36.DOM基础知识,添加元素,删除元素等等...
 append()
 var list=document.getElementById("myList");
@@ -901,3 +946,122 @@ https://www.jianshu.com/p/0a65c3d03591
 
 
 fetch和ajax
+
+
+
+koa中间件洋葱模型
+
+```js
+function compose (middleware) {
+  return function (context, next) {
+    // last called middleware #
+    let index = -1
+    return dispatch(0)
+    
+    function dispatch (i) {
+      if (i <= index) return Promise.reject(new Error('next() called multiple times'))
+      index = i
+      let fn = middleware[i]
+      if (i === middleware.length) fn = next
+      if (!fn) return Promise.resolve()
+      try {
+        return Promise.resolve(fn(context, function next () {
+          return dispatch(i + 1)
+        }))
+      } catch (err) {
+        return Promise.reject(err)
+      }
+    }
+  }
+}
+
+```
+
+
+
+
+
+react生命周期
+
+react性能优化
+
+添加原生事件不移除为什么会内存泄露
+事件中可以访问到的变量无法被释放
+
+还有哪些地方会内存泄露
+
+闭包，
+
+setInterval需要注意的点
+
+    指定的是“开始执行”之间的间隔，并不考虑每次任务执行本身所消耗的事件
+    最短间隔时间是10毫秒
+    
+    requestAnimationFrame 比起 setTimeout、setInterval 的优势主要有两点：
+    
+    requestAnimationFrame会把每一帧中的所有DOM操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率，一般来说，这个频率为每秒60帧。
+    在隐藏或不可见的元素中，requestAnimationFrame将不会进行重绘或回流，这当然就意味着更少的的cpu，gpu和内存使用量。
+    
+
+定时器为什么是不精确的
+    
+    执行需要时间
+    队列等待需要时间
+
+setTimeout(1)和setTimeout(2)之间的区别
+
+介绍宏任务和微任务
+    
+    微任务：Promise Process.nexttick
+
+promise里面和then里面执行有什么区别
+
+介绍pureComponet
+
+介绍Function Component
+
+React数据流
+
+props和state的区别
+    
+    父组件render会引起子组件re-render
+
+介绍react context
+
+ 一个树结构上的全局状态
+
+介绍class和ES5的类以及区别
+    
+    
+
+
+介绍箭头函数和普通函数的区别
+
+介绍defineProperty方法，什么时候需要用到
+
+    对象 属性名 属性的描述
+
+for..in 和 object.keys的区别
+
+    for in 遍历原型链
+
+介绍闭包，使用场景
+
+
+使用闭包特权函数的使用场景
+
+
+get和post有什么区别
+
+数据发送的方式
+数据传递的大小
+
+A = {
+a:B
+}
+
+B={
+b:A
+}
+
+[A]

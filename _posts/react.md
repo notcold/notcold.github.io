@@ -1,0 +1,179 @@
+React:
+
+生命周期  ：   
+版本16以下
+1.声明周期 
+实例化
+    1、getDefaultProps
+    2、getInitialState
+    3、componentWillMount
+    4、render
+    5、componentDidMount
+存在期
+    1、componentWillReceiveProps
+    2、shouldComponentUpdate
+    3、componentWillUpdate
+    4、render
+    5、componentDidUpdate
+ 销毁
+    1 componentWillUnmount
+ 
+ 版本16以上的
+ 原来的componentWillMount，componentWillReceiveProps，componentWillUpdate方法被标记为不安全了
+ 1.声明周期 
+ 实例化
+     1、getDefaultProps
+     2、getInitialState 
+     4、render
+     5、componentDidMount
+ 存在期
+     1、shouldComponentUpdate
+     2、getDerivedStateFromProps()  新的
+     3、render
+     4、getSnapshotBeforeUpdate()  新的
+     5、componentDidUpdate
+  销毁
+     1 componentWillUnmount
+     
+ 
+ 虚拟dom
+ diff算法
+ React16版本新的特性
+ 
+    1.Fiber原理  比较多
+        关键特性：增量渲染（把渲染任务拆分成块，匀到多帧）
+             
+             更新时能够暂停，终止，复用渲染任务
+             
+             给不同类型的更新赋予优先级
+             
+             并发方面新的基础能力
+             
+        
+    2.Strict Mode
+      StrictMode 可以在开发阶段开启严格模式，发现应用存在的潜在问题，提升应用的健壮性，其主要能检测下列问题：
+      
+      识别被标志位不安全的生命周期函数
+      对弃用的 API 进行警告
+      探测某些产生副作用的方法
+      检测是否使用 findDOMNode
+      检测是否采用了老的 Context API
+      
+    3.Error Boundaries
+      React16 支持了更优雅的错误处理策略，如果一个错误是在组件的渲染或者生命周期方法中被抛出，整个组件结构就会从根节点中卸载，而不影响其他组件的渲染，可以利用 error boundaries 进行错误的优化处理。
+   ```js
+        class ErrorBoundary extends React.Component {
+          constructor(props) {
+            super(props);
+            this.state = { hasError: false };
+          }
+        
+          componentDidCatch(error, info) {
+            // You can also log the error to an error reporting service
+            logErrorToMyService(error, info);
+          }
+        
+          render() {
+            if (this.state.hasError) {
+              // You can render any custom fallback UI
+              return <h1>Something went wrong.</h1>;
+            }
+        
+            return this.props.children; 
+          }
+        }
+
+```
+
+ React组件化
+ 
+    1.状态和UI解耦
+    2.提高代码的复用
+ 
+ 
+ Hoc高阶组件
+ 
+ 参数是一个组件在方法中被做一些添加或修改包装成一个新组建之后返回
+ 优点很多，能够封装公共代码，添加特定方法。
+ 缺点就是不能保留原组件上的静态方法，但这个基本没有太大影响
+   ```
+     function HOC(warpcomponent) {
+          return Component(){
+              render(){
+                  return warpcomponent
+              }
+          }
+        }
+    
+   ```
+    
+ 
+ setState异步原理
+    
+    react的事务模型
+    * <pre>
+     *                       wrappers (injected at creation time)
+     *                                      +        +
+     *                                      |        |
+     *                    +-----------------|--------|--------------+
+     *                    |                 v        |              |
+     *                    |      +---------------+   |              |
+     *                    |   +--|    wrapper1   |---|----+         |
+     *                    |   |  +---------------+   v    |         |
+     *                    |   |          +-------------+  |         |
+     *                    |   |     +----|   wrapper2  |--------+   |
+     *                    |   |     |    +-------------+  |     |   |
+     *                    |   |     |                     |     |   |
+     *                    |   v     v                     v     v   | wrapper
+     *                    | +---+ +---+   +---------+   +---+ +---+ | invariants
+     * perform(anyMethod) | |   | |   |   |         |   |   | |   | | maintained
+     * +----------------->|-|---|-|---|-->|anyMethod|---|---|-|---|-|-------->
+     *                    | |   | |   |   |         |   |   | |   | |
+     *                    | |   | |   |   |         |   |   | |   | |
+     *                    | |   | |   |   |         |   |   | |   | |
+     *                    | +---+ +---+   +---------+   +---+ +---+ |
+     *                    |  initialize                    close    |
+     *                    +-----------------------------------------+
+     * </pre>
+     *
+    <div onClick={()=>{this.state()}}></div>
+    
+    
+    anyMethod就是我们会调用setState方法的地方，
+    setState在非异步操作中
+          if (!batchingStrategy.isBatchingUpdates) { //异步操作这个没有被置为true，能够直接更新
+            batchingStrategy.batchedUpdates(enqueueUpdate, component);
+            return;
+          }
+            //非异步操作会先放入队列，等待事务的close方法调用去更新
+          dirtyComponents.push(component);
+          if (component._updateBatchNumber == null) {
+            component._updateBatchNumber = updateBatchNumber + 1;
+          }
+    close是真正去触发state修改和render的地方
+    
+    
+    
+ 
+ 组件传值： 父子  兄弟   祖孙跨足间传值
+ 父子：props传值和方法
+ 兄弟：redux或者通过父组件传递
+ 祖孙：通过context设置一个全局数据
+
+ pureComponent实现原理
+ 对state和props做浅比较
+ 
+ react性能优化
+ 
+    1.组件尽量用pureComponent细化分隔，shouldComponentUpdate避免重复渲染
+
+    2.props传递的时候不要用{...props}，不要传多余的数据
+    3.添加key标识，diff的时候判断更简单
+    4.在constructor中绑定this，这样就不会每次render都重新绑定
+    constructor(props) {
+          super(props);
+          this.handleClick = this.handleClick.bind(this); //构造函数中绑定
+      }
+      //然后可以
+      <p onClick={this.handleClick}>
+ 
