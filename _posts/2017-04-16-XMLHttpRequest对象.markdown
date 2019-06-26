@@ -2,7 +2,7 @@
 title: XMLHttpRequest对象
 description: 
 categories:
- - 浏览器 
+ - browser 
 tags: 
  - ajax
 ---

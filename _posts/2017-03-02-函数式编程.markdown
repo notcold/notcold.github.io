@@ -2,7 +2,7 @@
 title: 函数式编程
 description: 
 categories:
- - javascript 
+ - Javascript 
 tags: 
  - 函数
 ---

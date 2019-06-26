@@ -2,7 +2,7 @@
 title: async 和await
 description: es7新的特性
 categories:
- - js
+ - Javascript
 tags: 
  - es7
 ---

@@ -3,7 +3,7 @@ title: js中的this指针
 date: 2016-05-21 22:41:25
 description: 
 categories:
- - javascript 
+ - Javascript 
 tags: 
  - this
 ---
@@ -40,7 +40,7 @@ tags:
     
     bar();//window
 
-    //当然也可以用 call 或者 apply 直接修改this只想为window
+    //当然也可以用 call 或者 apply 直接修改this指向为window
 ```  
  ### 箭头函数的this
  
@@ -54,3 +54,16 @@ tags:
     
     human.todo() //Window
    ```
+ ### 改变this
+ 
+ ```javascript
+//call
+func.call(context,args)
+
+//apply
+func.apply(context,...args)
+
+//bind bind之后this无法改变
+const Fn = func.bind(context,...args)
+
+```

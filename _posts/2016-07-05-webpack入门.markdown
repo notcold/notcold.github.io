@@ -2,7 +2,7 @@
 title: webpack入门
 description: 
 categories:
- - javascript 
+ - engineering 
 tags: 
  - webpack
 ---
@@ -27,8 +27,10 @@ npm install --save-dev webpack-cli
    webpack是一个静态文件模块打包工具，它会通过解析配置入口文件来生成所有映射文件的依赖关系，然后将这些依赖生成为bundle。
     
     
-   webpack.config.js
 ```
+  // webpack.config.js 
+  //简单的单入口配置
+
 const path = require('path');
 
 module.exports = {
@@ -62,6 +64,9 @@ module.exports = {
   
   所有的文件被 ` loader `解析之后生成的都是模块，然后进入compile流程；
 
+###插件
+
+
 ##webpack打包的运行周期
 
 
@@ -88,11 +93,10 @@ var LiveReloadPlugin = require('webpack-livereload-plugin');
 var _definedConfig = require('./_config.webpack.defined');
 
 var CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
-
+//自定义babel配置
 var babelConfig = require('./babel.config');
 var cwd = process.cwd();
-var componentName = 'Rxfietest',
-    srcPath = path.resolve(__dirname, './src'),
+var srcPath = path.resolve(__dirname, './src'),
     outputPath = path.resolve(__dirname, './build');
 
 var isWin = /^win/.test(process.platform);
@@ -223,108 +227,6 @@ var config = {
             }
         })
     ]
-};
-
-
-/**
- * 开发环境及demo编译时的配置
- * @returns {*}
- */
-function dev() {
-
-    var _config = _.cloneDeep(config);
-
-    _config.plugins.push(
-        new webpack.DefinePlugin({
-            "process.env": {NODE_ENV: JSON.stringify('development')},
-            "__DEV__": JSON.stringify(JSON.parse('true')),
-            "____WEBPACK_DEBUG": JSON.stringify(JSON.parse('true')),
-
-        }),
-
-        new LiveReloadPlugin()
-    );
-
-    //添加soure-map
-    _config.devtool = 'inline-source-map';
-
-    return _config;
-}
-
-
-/**
- * 编译到demo文件夹的配置
- * 与dev的区别是不需要调试相关的配置
- */
-function prod() {
-    var _config = _.cloneDeep(config);
-
-    // _config.externals = [];
-
-    _config.plugins.push(
-        new CaseSensitivePathsPlugin(),
-
-        //查找相等或近似的模块，避免在最终生成的文件中出现重复的模块。
-        // new webpack.optimize.DedupePlugin(),
-        //Webpack gives IDs to identify your modules. With this plugin,
-        // Webpack will analyze and prioritize often used modules assigning them the smallest ids.
-        new webpack.optimize.OccurrenceOrderPlugin(),
-
-
-        new webpack.DefinePlugin({
-            "process.env": {NODE_ENV: JSON.stringify('production')},
-            "__DEV__": JSON.stringify(JSON.parse('false')),
-            "____WEBPACK_DEBUG": JSON.stringify(JSON.parse('true')),
-
-        }),
-
-        //UglifyJs
-        new webpack.optimize.UglifyJsPlugin({
-            minimize: true,
-            compress: { warnings: false, drop_console: true },
-            output: { comments: false }
-        })
-    );
-
-    return _config;
-}
-// 用于分析
-function fx() {
-    var _config = _.cloneDeep(config);
-
-    // _config.externals = [];
-
-    _config.plugins.push(
-
-        new CaseSensitivePathsPlugin(),
-
-        //查找相等或近似的模块，避免在最终生成的文件中出现重复的模块。
-        // new webpack.optimize.DedupePlugin(),
-        //Webpack gives IDs to identify your modules. With this plugin,
-        // Webpack will analyze and prioritize often used modules assigning them the smallest ids.
-        new webpack.optimize.OccurrenceOrderPlugin(),
-
-
-        new webpack.DefinePlugin({
-            "process.env": { NODE_ENV: JSON.stringify('production') },
-            "__DEV__": JSON.stringify(JSON.parse('false')),
-            "____WEBPACK_DEBUG": JSON.stringify(JSON.parse('false')),
-            "____WEBPACK_QAPVERSION": JSON.stringify(_definedConfig.qapVersion),
-            "____WEBPACK_GUIDE_VERSION": JSON.stringify(_definedConfig.guideVersion),
-            "____WEBPACK_GUIDE_ANDRIODURL": JSON.stringify(_definedConfig.guideQnAndriod)
-        })
-    );
-
-    return _config;
-}
-
-
-module.exports = {
-
-    dev: dev,
-
-    prod: prod
-
 };
 
 ```

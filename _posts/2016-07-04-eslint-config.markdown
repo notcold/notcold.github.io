@@ -2,7 +2,7 @@
 title: eslint config
 description: js quality
 categories:
- - 
+ - engineering
 tags: 
  - eslint
 ---
@@ -17,6 +17,7 @@ npm i -g eslint
 
 ##eslint配置文件
 
+.editorconfig
 ```json
 {
     "parserOptions": {
@@ -37,7 +38,7 @@ npm i -g eslint
     },
     "globals": {
         "superbossTop": true,
-        "Tatami": true,
+        "Tatami": true
     },
     "rules": {
         "comma-dangle": [2, "never"],
