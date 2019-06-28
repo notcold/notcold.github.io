@@ -9,7 +9,7 @@ tags:
 ---
 
 ## 核心psdjs
- 
+
 通过node安装[psdjs](https://github.com/meltingice/psd.js) 
 
 ```node
@@ -112,12 +112,12 @@ rename(layers)
           
       */
   ```
-    
-    
+
+
   ###图片保存
-  
-  获取遍历psd中的图图层并将图片它们保存下来，
-  
+
+  获取遍历psd中的图层并将图片它们保存下来，
+
   ```node
   let layers = root.descendants(); // descendants方法能够将树形树形转化为一位数组，这样遍历起来就非常简单
   
@@ -132,10 +132,10 @@ rename(layers)
   }
   ```
 ## 解析数据组装页面
-    
-    
+
+
  将获取到的数据和图片用绝对定位布局的形式，展现到页面上   
- 
+
 ```html
 
 <body>
