@@ -2,6 +2,7 @@ css:
 1. position
 static  relative  absolute  fixed  sticky粘性
 2. 盒模型    (BFC)
+3. 
   margin border padding content 
   
   BFC 隔离样式影响
