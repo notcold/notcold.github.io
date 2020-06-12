@@ -1,0 +1,203 @@
+I"�<h2 id="核心psdjs">核心psdjs</h2>
+
+<p>通过node安装<a href="https://github.com/meltingice/psd.js">psdjs</a></p>
+
+<pre><code class="language-node">    npm install psdjs --save
+</code></pre>
+<p>###psdjs的用法</p>
+
+<pre><code class="language-node">    const PSD = require('psd');
+    const psd = PSD.fromFile(file); //方法 PSD.fromFile 根据文件路径读取psd文件专户为对象
+    psd.parse(); //将对象解析转换为普通的js对象，包含了所有的图层数据
+    const root = psd.tree(); //获取到的root是所有图层的节点数据，root是一个树形的json数组
+   
+</code></pre>
+
+<p>这样就获取到了正psd文件中所有图层的数据，包括节点的定位，文字节点的字体样式，dom元素就可以根据这些数据在html页面中定位和展示。</p>
+
+<p>###ps重命名脚本</p>
+
+<p>在ps中执行，将图片和文字图层按名字区分开，能大大简化</p>
+
+<pre><code class="language-node">//获取当前活动文档
+var doc = activeDocument;
+
+//获取文档活动图层
+var layers = doc.layers;
+var sum = 0;
+
+function rename(layers) {
+    //循环你图层
+    for (var i = 0; i &lt; layers.length; i++) {
+        //图层是文本
+        if (layers[i].layers &amp;&amp; layers[i].layers.length &gt; 0) {
+            rename(layers[i].layers)
+        }
+        if (layers[i].kind === LayerKind.TEXT) {
+            layers[i].name = "txt_" + sum;
+        } else if (layers[i].kind === LayerKind.NORMAL) {
+            layers[i].name = "pic_" + sum;
+        }
+        sum++;
+    }
+}
+rename(layers)
+</code></pre>
+
+<h2 id="使用psdjs获取数据和图片">使用psdjs获取数据和图片</h2>
+
+<p>###图层数据</p>
+<pre><code class="language-node">   const data = root.export(); //获取json数组
+      /*  data
+          {
+            "children": [
+              {
+                "type": "group",
+                "visible": true,
+                "opacity": 1,
+                "blendingMode": "normal",
+                "name": "组 9",
+                "left": -6,
+                "right": 525,
+                "top": 10,
+                "bottom": 460,
+                "height": 450,
+                "width": 531,
+                "children": [
+                  {
+                    "type": "group",
+                    "visible": true,
+                    "opacity": 1,
+                    "blendingMode": "normal",
+                    "name": "1",
+                    "left": -6,
+                    "right": 525,
+                    "top": 10,
+                    "bottom": 460,
+                    "height": 450,
+                    "width": 531,
+                    "children": []
+                  }
+                ]
+              }
+            ],
+            "document": {
+              "width": 1210,
+              "height": 746,
+              "resources": {
+                "layerComps": [],
+                "guides": [],
+                "slices": []
+              }
+            }
+          }、
+          
+      */
+</code></pre>
+
+<p>###图片保存</p>
+
+<p>获取遍历psd中的图层并将图片它们保存下来，</p>
+
+<pre><code class="language-node">  let layers = root.descendants(); // descendants方法能够将树形树形转化为一位数组，这样遍历起来就非常简单
+  
+  layers.forEach((layer, i) =&gt; {
+          if (layer.name.includes('pic_')) { //可以通过ps脚本将图层全部重命名，将图片和其他图层区分开
+              transform(layer)
+          }
+      })
+  
+  function transform(item) {//图层上自带api方法，通过saveAsPng就可以保存到指定的路径下
+      item.layer.image.saveAsPng('src/img/' + filename + '/' + item.name + '.png')
+  }
+</code></pre>
+<h2 id="解析数据组装页面">解析数据组装页面</h2>
+
+<p>将获取到的数据和图片用绝对定位布局的形式，展现到页面上</p>
+
+<pre><code class="language-html">
+&lt;body&gt;
+&lt;a target="_blank" id="download" download="pic" href=""&gt;下载图片&lt;/a&gt;
+&lt;div id="root" style="position: relative;"&gt;&lt;/div&gt;
+&lt;/body&gt;
+&lt;script&gt;
+
+    var filename = location.search.split('=')[1];
+    $('#download').attr('href','/download.json?temp='+filename)
+    const $root = $('#root');
+
+    var difleft = diftop = 0;
+    
+    $.get('/getdata.json' + location.search, function (data) {
+        //获取图层数据的接口
+        $root.css({
+            width: data.document.width,
+            height: data.document.height
+        })
+        transform(data.children, $root)
+
+    })
+
+    function transform(arr, target) {
+        // body...
+
+        arr.forEach((item, i) =&gt; {
+            item.name = item.name.replace(/ /g, 's')
+            target.append('&lt;div id="' + item.name + '"&gt;&lt;/div&gt;')
+
+            let $div = target.find('#'+item.name)
+
+            $div.css({
+                'position': 'absolute',
+                'z-index': 1000 - i
+            });
+            if (item.type != 'group') {
+                $div.css({
+                    height: item.height,
+                    top: item.top - diftop,
+                    left: item.left - difleft
+                });
+                if (item.text &amp;&amp; item.text != {}) {
+                    $div.html(item.text.value.replace(' ', '&amp;nbsp;'))
+                    $div.css({
+                        width: item.width + 5
+                    });
+                    $div.css({
+                        'font-size': item.text.font.sizes[0] * item.text.transform['xx'],
+                        'line-height': item.text.font.sizes[0] * item.text.transform['xx'] + 'px',
+                        'font-family': item.text.font.name,
+                        'color': 'rgba(' + arr2Str(item.text.font.colors[0]) + ')',
+                        'text-align': item.text.font.alignment
+                    });
+                } else {
+                    $div.css({
+                        width: item.width
+                    });
+                    $div.css({
+                        background: 'url(./img/'+filename +'/' + item.name + '.png)'
+                    });
+                }
+            }
+
+            if (item.mask &amp;&amp; item.mask != {}) {
+                $div.css({
+                    height: item.height,
+                    top: item.top - diftop,
+                    left: item.left - difleft,
+                });
+            }
+
+            if (item.children) {
+                transform(item.children, $div)
+            }
+        })
+    }
+
+    function arr2Str(colors) {
+        return colors[0] + ',' + colors[1] + ',' + colors[2] + ',' + colors[3]
+    }
+
+
+</code></pre>
+
+:ET

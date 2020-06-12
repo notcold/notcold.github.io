@@ -50,7 +50,7 @@ console.log(Object.prototype.isPrototypeOf(Function))
 
 ```
 
-原型关系![图片]({{site.url}}/assets/images/prototype/1AE4DB0D-3A43-4616-8F48-F53C6268E12A.png)
+原型关系![图片]({{site.url}}/assets/images/prototype/prototype.png)
 
 
    在JavaScript中，每个函数都有一个prototype属性，当一个函数被用作构造函数来创建实例时，

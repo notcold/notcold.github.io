@@ -1,0 +1,135 @@
+I"�<h2 id="promise含义">Promise含义</h2>
+
+<p>Promise 是ES6正式确定的异步编程解决方案，比以往的回调函数与事件更加清晰明了，使用它也能防止出现回调地狱。
+Promise是一个新的类，使用的时候需要创建他的对象。</p>
+
+<p>##Promise用法</p>
+
+<pre><code class="language-js">//构建Promise对象
+let next = new Promise((resolve, reject)=&gt;{
+    if(success){
+        //pending -&gt; fullfill
+        resolve()
+    }else{
+        //pendin -&gt; rejeted
+        reject()
+    }
+})
+
+//直接调用resolve
+
+Promise.resolve(4).then((data)=&gt;{
+    console.log(data) // 4
+})
+
+//批量执行方法
+//同时执行多个Promise对象，等待全部完成侯进入then
+Promise.all([p1,p2,p3,...]).then((data)=&gt;{
+    console.log(data) //data是一个数组
+})
+//竞态执行Promise，第一个完成后，舍弃其他
+Promise.race([p1,p2,p3,...]).then((data)=&gt;{
+    console.log(data) //data是单个值
+})
+
+
+
+//Promise在Ajax中的实际应用
+const getJSON = function(url) {
+  const promise = new Promise(function(resolve, reject){
+    const handler = function() {
+      if (this.readyState !== 4) {
+        return;
+      }
+      if (this.status === 200) {
+        resolve(this.response);
+      } else {
+        reject(new Error(this.statusText));
+      }
+    };
+    const client = new XMLHttpRequest();
+    client.open("GET", url);
+    client.onreadystatechange = handler;
+    client.responseType = "json";
+    client.setRequestHeader("Accept", "application/json");
+    client.send();
+
+  });
+
+  return promise;
+};
+
+getJSON("/posts.json").then(function(json) {
+  console.log('Contents: ' + json);
+}, function(error) {
+  console.error('出错了', error);
+});
+
+
+</code></pre>
+
+<p>##Promise的js实现</p>
+
+<pre><code class="language-js">//js实现简单Promise对象
+
+//new PromisePoly((resolve,rejected)=&gt;{resolve()}).then(()=&gt;{})
+
+class PromisePoly {
+    constructor(executor) {
+        try {
+            executor(this.resolve.bind(this), this.reject.bind(this))
+        } catch (e) {
+            this.reject(e)
+        }
+    }
+    status = 'pending'
+    resolve(data) {
+        if (this.status === 'pending') {
+            console.log('resolved')
+            this.data = data;
+            this.status = 'resolved'
+        }
+    }
+
+    reject(error) {
+        if (this.status === 'pending') {
+            console.log('resolved')
+            this.data = error;
+            this.status = 'rejected'
+        }
+    }
+}
+PromisePoly.prototype.then = function(resolved, rejected) {
+    console.log('then')
+    //返回新的Promise对象
+    if (this.status === 'resolved') {
+        return new PromisePoly((resolve, reject) =&gt; {
+            try {
+                var result = resolved(this.data)
+                if (result instanceof PromisePoly) { // 如果resolved的返回值是一个Promise对象，直接取它的结果做为新promise的结果
+                    result.then(resolve, reject)
+                } else {
+                    resolve(result) // 否则，以它的返回值做为新promise的结果
+                }
+            } catch (e) {
+                reject(e) // 如果出错，以捕获到的错误做为新promise的结果
+            }
+        })
+    }
+
+    if (this.status === 'rejected') {
+        return new PromisePoly((resolve, reject) =&gt; {
+            try {
+                var result = rejected(this.data)
+                if (result instanceof PromisePoly) { // 如果rejected的返回值是一个Promise对象，直接取它的结果做为新promise的结果
+                    result.then(resolve, reject)
+                }
+            } catch (e) {
+                reject(e) // 如果出错，以捕获到的错误做为新promise的结果
+            }
+        })
+    }
+}
+
+</code></pre>
+:ET

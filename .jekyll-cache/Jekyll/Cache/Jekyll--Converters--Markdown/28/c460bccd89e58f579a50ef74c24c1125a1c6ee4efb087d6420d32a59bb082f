@@ -1,0 +1,39 @@
+I"�<p>##箭头函数</p>
+
+<pre><code class="language-javascript">
+    const func = ()=&gt;{
+        console.log(this)  //this指向global对象
+    }
+    const obj = {
+        func
+    }
+    obj.func()  //window
+    const obj1 = {
+            func:function() {
+              console.log(this)
+            }
+        }
+    obj1.func() //obj1
+</code></pre>
+
+<p>###使用箭头函数需要注意</p>
+
+<pre><code>    1.不绑定this
+    在箭头函数出现之前，每个新定义的函数都有其自己的 this 值
+    
+    2.使用call()和apply()调用
+    由于 this 已经在词法层面完成了绑定，通过 call() 或 apply() 方法调用一个函数时，只是传入了参数而已，对 this 并没有什么影响：
+    
+    3.箭头函数不绑定arguments,取而代之用rest参数…解决
+    
+    4.箭头函数不能用作构造器，和 new 一起用就会抛出错误。
+</code></pre>
+
+<p>##bind</p>
+
+<p>###bind实现原理</p>
+<pre><code class="language-javascript">
+
+</code></pre>
+
+:ET
