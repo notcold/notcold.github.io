@@ -2,10 +2,8 @@
 title: js中的this指针
 date: 2016-05-21 22:41:25
 description: 
-categories:
- - Javascript 
-tags: 
- - this
+categories: [Javascript]
+tags: [this]
 ---
 
 
