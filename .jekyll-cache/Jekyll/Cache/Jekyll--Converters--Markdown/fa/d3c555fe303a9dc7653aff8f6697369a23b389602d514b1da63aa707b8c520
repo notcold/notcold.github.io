@@ -1,0 +1,65 @@
+I"�<h1 id="http缓存">HTTP缓存</h1>
+
+<p>好的缓存策略能够帮助WEB应用提升性能，加快响应速度。</p>
+
+<p>浏览器缓存策略分为两种：强缓存和协商缓存</p>
+
+<h2 id="强缓存从客户端加载资源请求不会发送到服务器">强缓存：从客户端加载资源，请求不会发送到服务器</h2>
+
+<p>强缓存通过<code>Expires</code>和<code>Cache-Control</code>两种响应头实现</p>
+
+<h3 id="1expires">1、Expires</h3>
+
+<p><code>**Expires**</code> 响应头包含日期/时间， 即在此时候之后，响应过期。</p>
+
+<p>如果在<a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Cache-Control"><code>Cache-Control</code></a>响应头设置了 “max-age” 或者 “s-max-age” 指令，那么 <code>Expires</code> 头会被忽略</p>
+
+<pre><code class="language-html">Expires: Wed, 21 Oct 2015 07:28:00 GMT
+</code></pre>
+
+<h3 id="2cache-control">2、Cache-Control</h3>
+
+<p><strong>Cache-Control</strong> 通用消息头字段，被用于在http请求和响应中，通过指定指令来实现缓存机制。缓存指令是单向的，这意味着在请求中设置的指令，不一定被包含在响应中。</p>
+
+<p>Cache-Control：指令</p>
+
+<pre><code>Cache-control: must-revalidate
+Cache-control: no-cache   在发布缓存副本之前，强制要求缓存把请求提交给原始服务器进行验证
+Cache-control: no-store    缓存不应存储有关客户端请求或服务器响应的任何内容
+Cache-control: no-transform
+Cache-control: public  表明响应可以被任何对象缓存，即使是通常不可缓存的内容
+Cache-control: private   表明响应只能被单个用户缓存，不能作为共享缓存
+Cache-control: proxy-revalidate
+Cache-Control: max-age=&lt;seconds&gt;
+Cache-control: s-maxage=&lt;seconds&gt;
+</code></pre>
+
+<h2 id="协商缓存请求发送到服务器判断是否能够从客户端加载资源">协商缓存：请求发送到服务器判断是否能够从客户端加载资源</h2>
+
+<p>协商缓存是利用的是<code>【Last-Modified，If-Modified-Since】</code>和<code>【ETag、If-None-Match】</code>这两对Header属性判断</p>
+
+<h3 id="1last-modifiedif-modified-since">1、Last-Modified，If-Modified-Since</h3>
+
+<p><strong>If-Modified-Since</strong> 是一个条件式请求首部，服务器只在所请求的资源在给定的日期时间之后对内容进行过修改的情况下才会将资源返回，状态码为 <strong>200</strong>  。如果请求的资源从那时起未经修改，那么返回一个不带有消息主体的 <strong>304</strong> 响应，而在 <a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Last-Modified"><code>Last-Modified</code></a> 首部中会带有上次修改时间。 <code>If-Modified-Since</code> 只可以用在 <a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Methods/GET"><code>GET</code></a> 或 <a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Methods/HEAD"><code>HEAD</code></a> 请求中。</p>
+
+<pre><code class="language-html">If-Modified-Since: &lt;day-name&gt;, &lt;day&gt; &lt;month&gt; &lt;year&gt; &lt;hour&gt;:&lt;minute&gt;:&lt;second&gt; GMT
+</code></pre>
+
+<p><strong>Last-Modified</strong>  是一个响应首部，其中包含源头服务器认定的资源做出修改的日期及时间。</p>
+
+<h3 id="2etagif-none-match">2、ETag、If-None-Match</h3>
+
+<blockquote>
+  <p><strong>ETag</strong>响应头是资源的特定版本的标识符。这可以让缓存更高效，并节省带宽，因为如果内容没有改变，Web服务器不需要发送完整的响应。而如果内容发生了变化，使用ETag有助于防止资源的同时更新相互覆盖。</p>
+
+  <p>如果给定URL中的资源更改，则一定要生成新的Etag值。 因此Etags类似于指纹，也可能被某些服务器用于跟踪。 比较etags能快速确定此资源是否变化，但也可能被跟踪服务器永久存留。</p>
+</blockquote>
+
+<pre><code class="language-html">ETag: W/"&lt;etag_value&gt;"
+ETag: "&lt;etag_value&gt;"
+</code></pre>
+
+<p><code>If-None-Match</code>的header会将上次返回的<code>Etag</code>发送给服务器，询问该资源的<code>Etag</code>是否有更新，有变动就会发送新的资源回来</p>
+
+<p><code>ETag</code>的优先级比<code>Last-Modified</code>更高</p>
+:ET

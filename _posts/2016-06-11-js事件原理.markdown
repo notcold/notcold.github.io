@@ -1,124 +1,114 @@
 ---
 title: js事件机制
 description: js中click事件等的运行机制
-categories:
- - Javascript
-tags: 
- - 事件冒泡
- - 事件捕获
+categories: [Javascript]
+tags: [事件冒泡, 事件捕获]
 ---
 
-
 ## 事件冒泡与事件捕获
-    
-   看两段代码
-   
-   [事件冒泡](https://codepen.io/notcold/pen/XyjvzK)
-   
- ```html
- 
-    <div id="outer">
-        <div id="inner">Click me</div>
-    </div>
-    <script>
-        var outer = document.getElementById('outer');
-        var inner = document.getElementById('inner');
-        inner.addEventListener("click",function(e){
-            console.log("s1 冒泡事件");
-        });
-        outer.addEventListener("click",function(e){
-            console.log("s2 冒泡事件");
-        });
-    </script>
-    /*console 
-        
-        //s1 冒泡事件
-        //s2 冒泡事件
-    */
+
+看两段代码
+
+[事件冒泡](https://codepen.io/notcold/pen/XyjvzK)
+
+```html
+<div id="outer">
+  <div id="inner">Click me</div>
+</div>
+<script>
+  var outer = document.getElementById("outer");
+  var inner = document.getElementById("inner");
+  inner.addEventListener("click", function (e) {
+    console.log("s1 冒泡事件");
+  });
+  outer.addEventListener("click", function (e) {
+    console.log("s2 冒泡事件");
+  });
+</script>
+/*console //s1 冒泡事件 //s2 冒泡事件 */
 ```
-   
-   [事件捕获](https://codepen.io/notcold/pen/BGLXrM)
-   
- ```html
- 
-    <div id="outer">
-        <div id="inner">Click me</div>
-    </div>
-    <script>
-        var outer = document.getElementById('outer');
-        var inner = document.getElementById('inner');
-        inner.addEventListener("click",function(e){
-            console.log("s1 事件捕获");
-        },true);
-        outer.addEventListener("click",function(e){
-            console.log("s2 事件捕获");
-        },true);
-    </script>
-        /*console 
-            
-            //s2 事件捕获
-            //s1 事件捕获
-        */
+
+[事件捕获](https://codepen.io/notcold/pen/BGLXrM)
+
+```html
+<div id="outer">
+  <div id="inner">Click me</div>
+</div>
+<script>
+  var outer = document.getElementById("outer");
+  var inner = document.getElementById("inner");
+  inner.addEventListener(
+    "click",
+    function (e) {
+      console.log("s1 事件捕获");
+    },
+    true
+  );
+  outer.addEventListener(
+    "click",
+    function (e) {
+      console.log("s2 事件捕获");
+    },
+    true
+  );
+</script>
+/*console //s2 事件捕获 //s1 事件捕获 */
 ```
-    
-   从上面的例子中可以看出 `addEventListener`方法的参数可以控制事件绑定的形式。事件冒泡和事件捕获在事件触发时的执行顺序上是明显不同的。
-    
+
+从上面的例子中可以看出 `addEventListener`方法的参数可以控制事件绑定的形式。事件冒泡和事件捕获在事件触发时的执行顺序上是明显不同的。
+
    <!-- more -->
-    
-   在现代浏览器中，W3C标准的事件模型是先捕获再冒泡，也就是当一个元素被点击的时候，是先从根节点 `document`逐级往下直到 `target`，这是一个事件捕获的过程，这个过程中会触发路径上元素绑定的捕获事件，当到达目标元素后，测试一个冒泡的流程，事件从 `target`元素逐级向上直到 `document`根元素传递。
-    
-   从这个模型上可以理解为事件捕获会比事件冒泡先执行，而目标元素上的事件是先绑定的先执行。
- 
-   冒泡
+
+在现代浏览器中，W3C 标准的事件模型是先捕获再冒泡，也就是当一个元素被点击的时候，是先从根节点 `document`逐级往下直到 `target`，这是一个事件捕获的过程，这个过程中会触发路径上元素绑定的捕获事件，当到达目标元素后，测试一个冒泡的流程，事件从 `target`元素逐级向上直到 `document`根元素传递。
+  
+ 从这个模型上可以理解为事件捕获会比事件冒泡先执行，而目标元素上的事件是先绑定的先执行。
+
+冒泡
+
 ```
     inner -> outer -> document
 ```
-   
-   捕获
+
+捕获
+
 ```
-   document -> outer ->inner  
+   document -> outer ->inner
 ```
 
 ## 事件绑定
-    
-   addEventListener(标准方法，IE9以下不支持) 或者 attachEvent(IE系列)
- 
-注意：attachEvent支持事件捕捉阶段，不支持冒泡阶段。attachEvent 绑定事件的执行顺序是从后往前。
----   
-```js
-        //addEventListener
-        ele.addEventListener("click",function(e){
-           //todo 
-        });
-        
-        //attachEvent 
-        ele.attachEvent("onclick",function(e){
-           //todo 
-        });
-```
 
+addEventListener(标准方法，IE9 以下不支持) 或者 attachEvent(IE 系列)
+
+注意：attachEvent 支持事件捕捉阶段，不支持冒泡阶段。attachEvent 绑定事件的执行顺序是从后往前。
+
+---
+
+```js
+//addEventListener
+ele.addEventListener("click", function (e) {
+  //todo
+});
+
+//attachEvent
+ele.attachEvent("onclick", function (e) {
+  //todo
+});
+```
 
 ## 兼容绑定事件
 
 ```js
-    const bind= function(ele,event,func) {
-      try{
-        ele.addEventListener(event,function(e){
-           //todo 
-           func&&func(e);
-        });  
-      }catch(e){
-           ele.attachEvent("on"+event,function(e){
-           //todo 
-           func&&func(e);
-        });
-      }
-    }
-    
-
+const bind = function (ele, event, func) {
+  try {
+    ele.addEventListener(event, function (e) {
+      //todo
+      func && func(e);
+    });
+  } catch (e) {
+    ele.attachEvent("on" + event, function (e) {
+      //todo
+      func && func(e);
+    });
+  }
+};
 ```
-
-    
-    
-    
-    

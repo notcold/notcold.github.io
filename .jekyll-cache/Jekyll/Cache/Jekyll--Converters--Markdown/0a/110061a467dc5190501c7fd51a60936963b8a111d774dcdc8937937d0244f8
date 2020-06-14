@@ -1,0 +1,130 @@
+I"_
+<p>##弹性布局</p>
+
+<p>###概念</p>
+
+<p>Flex的含义是”弹性”，顾名思义，Flex布局的意思即是弹性布局，可以指定任意盒模型在样式表现上为弹性的。</p>
+
+<pre><code class="language-css">.box{
+	display:flex;
+}
+</code></pre>
+
+<p>设为 Flex 布局以后，子元素的<code>float</code>、<code>clear</code>和<code>vertical-align</code>属性就会失效。</p>
+
+<h4 id="属性">属性</h4>
+
+<p>容器的</p>
+
+<ul>
+  <li>flex-direction    主轴方向</li>
+  <li>flex-wrap    控制换行</li>
+  <li>flex-flow  等同于   flex-direction + flex-wrap</li>
+  <li>justify-content   主轴对其方式</li>
+  <li>align-items    交叉轴对其方式</li>
+  <li>align-content</li>
+</ul>
+
+<p>项目的</p>
+
+<ul>
+  <li><code>order </code>    项目的排列顺序。数值越小，排列越靠前，默认为0。</li>
+  <li><code>flex-grow</code></li>
+  <li><code>flex-shrink</code></li>
+  <li><code>flex-basis</code></li>
+  <li><code>flex</code></li>
+  <li><code>align-self</code>  设置项目与其他项目不一样的对齐方式，可覆盖<code>align-items</code>属性</li>
+</ul>
+
+<p>###使用</p>
+
+<h4 id="垂直居中">垂直居中</h4>
+
+<pre><code class="language-html"> &lt;div class="box"&gt;
+     &lt;div class="content"&gt;
+  			flex
+      &lt;/div&gt;
+  &lt;/div&gt;
+
+.box{
+	display:flex;
+	justify-content: center;
+  align-items: center;
+}
+
+</code></pre>
+
+<h4 id="圣杯布局">圣杯布局</h4>
+
+<p><a href="![](http://localhost:4000/assets/images/css/shengbei.jpg)">圣杯</a></p>
+
+<pre><code class="language-html">&lt;html&gt;
+
+&lt;head&gt;
+  &lt;title&gt;Flex 实现圣杯布局&lt;/title&gt;
+&lt;/head&gt;
+&lt;style&gt;
+html,
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 600px;
+  height: 100%;
+  font-size: 28px;
+  font-weight: bolder;
+}
+
+header,
+footer {
+  height: 150px;
+  background-color: #666;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: none;
+}
+
+.content {
+  flex: 1; /* 高度自适应 */
+  display: flex;
+}
+
+nav,
+aside {
+  background-color: #eb6f43;
+  flex: 0 1 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1; /* 宽度自适应 */
+  background-color: #d6d6d6;
+}
+
+nav {
+  order: -1; /* 调整顺序在main前面 */
+}
+&lt;/style&gt;
+&lt;body&gt;
+  &lt;header&gt;
+    header
+  &lt;/header&gt;
+  &lt;div class="content"&gt;
+    &lt;main&gt;main&lt;/main&gt;
+    &lt;nav&gt;nav&lt;/nav&gt;
+    &lt;aside&gt;aside&lt;/aside&gt;
+  &lt;/div&gt;
+  &lt;footer&gt;
+    footer
+  &lt;/footer&gt;
+&lt;/body&gt;
+
+&lt;/html&gt;
+</code></pre>
+
+:ET
