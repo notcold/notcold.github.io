@@ -1,4 +1,5 @@
 ---
+layout: post
 title: async 和await
 description: es7新的特性
 categories:

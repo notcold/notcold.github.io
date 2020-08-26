@@ -1,5 +1,7 @@
+---
+layout: post
 
-
+---
 
 
 React提出的virtualDOM与diff算法是它作为框架一直为人津津乐道的地方，两者的结合对前端框架的理念是颠覆性的，

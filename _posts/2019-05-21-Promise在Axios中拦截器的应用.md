@@ -1,4 +1,5 @@
 ---
+layout: post
 title: Promise在Axios拦截器的应用
 description: Axios通过Promise的链式调用实现拦截器
 categories:
@@ -12,7 +13,7 @@ tags:
 
 在Axios中可以在通过use方法添加通用的方法，用来在请求发送前和响应之后
 
-```
+```js
 
 // 添加请求拦截器
 axios.interceptors.request.use(
@@ -69,7 +70,7 @@ request(()=>{
 
 ## Axios的拦截方式
 
-```
+```js
 
 //创建一个Promise的队列，包含了请求发起的Promise方法
   var chain = [dispatchRequest, undefined];

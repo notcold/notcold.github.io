@@ -1,4 +1,5 @@
 ---
+layout: post
 title: XMLHttpRequest对象
 description: 
 categories:
