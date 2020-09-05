@@ -6,6 +6,9 @@ categories:
  - browser 
 tags: 
  - ajax
+
+image: assets/images/5.jpg
+
 ---
 
 # XMLHttpRequest对象介绍

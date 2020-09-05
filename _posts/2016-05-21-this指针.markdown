@@ -5,6 +5,8 @@ date: 2016-05-21 22:41:25
 description: 
 categories: [Javascript]
 tags: [this]
+image: assets/images/5.jpg
+
 ---
 
 
@@ -52,7 +54,9 @@ tags: [this]
     }
     
     human.todo() //Window
+    // 箭头函数中this与调用者无关，取决于方法定义的所在位置的this指向
    ```
+
  ### 改变this
 
  ```javascript

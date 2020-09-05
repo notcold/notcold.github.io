@@ -6,6 +6,9 @@ categories:
  - Javascript
 tags: 
  - es7
+
+image: assets/images/5.jpg
+
 ---
 
 ## async函数

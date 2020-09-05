@@ -6,6 +6,7 @@ categories:
  - Javascript 
 tags: 
  - Promise
+image: assets/images/4.jpg
 
 ---
 
