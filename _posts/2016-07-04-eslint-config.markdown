@@ -6,6 +6,8 @@ categories:
  - engineering
 tags: 
  - eslint
+image: assets/images/5.jpg
+
 ---
 
 ##安装eslint

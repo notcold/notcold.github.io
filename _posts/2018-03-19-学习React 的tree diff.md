@@ -1,5 +1,6 @@
 ---
 layout: post
+image: assets/images/5.jpg
 
 ---
 

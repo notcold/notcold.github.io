@@ -5,6 +5,7 @@ date: 2016-05-08 19:32:55
 description: 
 categories: [ Javascript]
 tags: [闭包]
+image: assets/images/5.jpg
 ---
 
 

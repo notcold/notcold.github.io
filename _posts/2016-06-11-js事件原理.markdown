@@ -4,6 +4,8 @@ title: js事件机制
 description: js中click事件等的运行机制
 categories: [Javascript]
 tags: [事件冒泡, 事件捕获]
+image: assets/images/5.jpg
+
 ---
 
 ## 事件冒泡与事件捕获
