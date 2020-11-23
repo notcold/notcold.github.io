@@ -18,7 +18,7 @@ image: assets/images/5.jpg
 ```node
     npm install psdjs --save
 ```
-###psdjs的用法
+### psdjs的用法
 
 ```node
     const PSD = require('psd');
@@ -32,7 +32,7 @@ image: assets/images/5.jpg
 
 
 
-###ps重命名脚本
+### ps重命名脚本
 
 在ps中执行，将图片和文字图层按名字区分开，能大大简化
 
@@ -66,7 +66,7 @@ rename(layers)
 
 ## 使用psdjs获取数据和图片
 
-###图层数据
+### 图层数据
   ```node
    const data = root.export(); //获取json数组
       /*  data
@@ -117,7 +117,7 @@ rename(layers)
   ```
 
 
-  ###图片保存
+  ### 图片保存
 
   获取遍历psd中的图层并将图片它们保存下来，
 
@@ -137,7 +137,7 @@ rename(layers)
 ## 解析数据组装页面
 
 
- 将获取到的数据和图片用绝对定位布局的形式，展现到页面上   
+    将获取到的数据和图片用绝对定位布局的形式，展现到页面上   
 
 ```html
 

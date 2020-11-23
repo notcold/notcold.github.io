@@ -4,7 +4,7 @@ title: React Schedul 源码学习
 description: 学习了解React中任务如何安排调度执行
 categories: [ React]
 tags: [ 源码 ]
-image: assets/images/9.jpg
+image: assets/images/react/schedule.png
 
 ---
 
