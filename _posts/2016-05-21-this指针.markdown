@@ -2,71 +2,195 @@
 layout: post
 title: js中的this指针
 date: 2016-05-21 22:41:25
-description: 
+description:
 categories: [Javascript]
 tags: [this]
 image: assets/images/5.jpg
-
 ---
 
+## this 指针
 
-## this指针
+因为工作原因一开始使用 js 时没有先学习就开始使用，所以是把很多 java 的理解带过来直接在 js 中套用的，所以一开始对 `this`的理解闹了很多问题。
 
-   因为工作原因一开始使用js时没有先学习就开始使用，所以是把很多java的理解带过来直接在js中套用的，所以一开始对 `this`的理解闹了很多问题。
+在 js 中 `this` 的指向是跟方法的调用者绑定的。怎么理解这句话呢，很直接， 一个方法是被谁调用的那他内部的 `this` 就指向谁。
+但是 es6 的箭头函数例外
 
-   在js中 `this` 的指向是跟方法的调用者绑定的。怎么理解这句话呢，很直接， 一个方法是被谁调用的那他内部的 `this` 就指向谁。
-  但是 es6的箭头函数例外
+`“箭头函数”的this，总是指向定义时所在的对象，而不是运行时所在的对象。`
 
-   “箭头函数”的this，总是指向定义时所在的对象，而不是运行时所在的对象。
+对 this 的理解主要从几个方面去考虑：全局环境下的 this、箭头函数的 this、构造函数的 this、this 的显隐性和优先级
 
+### this 指向全局对象
 
-### this指向全局对象
+在全局作用域下调用的方法，或者在函数内没有指定调用的者的方法；
 
-  在全局作用域下调用的方法，或者在函数内没有指定调用的者的方法；
-  ```js
-    
-    function foo() {
-      console.log(this)
-    }
-    
-    var a = {
-    
-        callme:function() {
-          foo();
-        }
-        
-    }
-    
-    var bar = a.callme;
-    
-    bar();//window
+```js
+function foo() {
+  console.log(this);
+}
 
-    //当然也可以用 call 或者 apply 直接修改this指向为window
-  ```
- ### 箭头函数的this
+var a = {
+  callme: function () {
+    foo();
+  },
+};
 
-   ```
-    const human = {
-         name:"person",
-         todo:()=>{
-            console.log(this.name)
-        }
-    }
-    
-    human.todo() //Window
-    // 箭头函数中this与调用者无关，取决于方法定义的所在位置的this指向
-   ```
+var bar = a.callme;
 
- ### 改变this
+bar(); //window
 
- ```javascript
+//当然也可以用 call 或者 apply 直接修改this指向为window
+```
+
+` 在严格模式下`use strict`,foo 中的this 指向的就是 undefined `
+
+### 非全局环境上下文中的 this
+
+```js
+const student = {
+  name: "Lucas",
+
+  fn: function () {
+    return this;
+  },
+};
+student.fn(); // this === student
+
+const person = {
+  name: "Lucas",
+
+  brother: {
+    name: "Mike",
+
+    fn: function () {
+      return this.name;
+    },
+  },
+};
+
+person.brother.fn(); // this === brother
+
+// this指向的是当前函数的调用者
+```
+
+在执行函数时，如果函数中的 this 是被上一级的对象所调用，那么 this 指向的就是上一级的对象；否则指向全局环境。
+
+### 箭头函数的 this
+
+```
+ const human = {
+      name:"person",
+      todo:()=>{
+         console.log(this.name)
+     }
+ }
+
+ human.todo() //Window
+
+```
+
+箭头函数使用 this 不适用以上标准规则，而是根据外层（函数或者全局）上下文来决定。
+
+### 构造函数的 this
+
+```js
+function Foo(name) {
+  this.name = name;
+  return this;
+}
+/*
+等价于
+var obj  = {} // this = obj
+
+obj.__proto__ = Foo.prototype
+
+Foo.call(obj) // 
+
+ 构造函数中的this 是 new 生成的对象的引用，
+ this instanceof Foo
+*/
+```
+
+### 通过 call/apply 显示的调用方法，this 指向给定的参数
+
+```javascript
 //call
-func.call(context,args)
+func.call(context, args);
 
 //apply
-func.apply(context,...args)
+func.apply(context, ...args);
 
 //bind bind之后this无法改变
-const Fn = func.bind(context,...args)
+const Fn = func.bind(context, ...args);
+```
 
- ```
+那么如何不用 call/apply 去改变函数的 this 呢？
+
+```js
+  // 将目标函数给定到指定对象去执行
+  function applyFunc(func,target,...args){
+    if(target === undefined || target === null|| typeof target !==='object'){
+      target = {}
+    }
+    const ran = Math.random()
+      target[ran] = func
+      const result target[ran](args)
+      delete target[ran]
+      return result
+  }
+
+```
+
+### this 的优先级
+
+    在js 中 call、apply、bind、new 都会改变 this的指向， 而js中的函数调用关系则是隐式的表明了this。
+
+有这样一个关系
+
+    new > bind/箭头函数 > call/apply > 一般的调用关系
+
+```js
+function foo(a) {
+  this.a = a;
+}
+
+const obj1 = {
+  a: 1,
+};
+
+const obj2 = {
+  a: 2,
+};
+
+var bar = foo.bind(obj1);
+
+bar(2);
+console.log(obj1.a); // 2
+bar.call(obj2, 3); // call 无法改变bind绑定的this对象
+console.log(obj2.a); //2
+
+const poo = new bar(4);
+console.log(poo.a); //4  new没有去改变bind绑定的obj1上的对象值
+```
+
+### 实现 bind 函数
+
+#### 在了解了 this 的指向情况后，自己来试着实现一个 bind 函数
+
+```js
+Function.protype.bind = function (ctx) {
+  var func = this;
+  var args = Array.prototype.slice.call(arguments, 1); // 参数获取
+  return function () {
+    var secondArgs = Array.prototype.slice.call(arguments, 1); // 参数获取
+    // 判断是否是 new 调用
+    if (this instanceof func) {
+      return func.apply(this, [...args, ...secondArgs]);
+    }
+    return func.apply(ctx, [...args, ...secondArgs]);
+  };
+};
+```
+
+## 总结
+
+this 的指向在 js 中千变万化，但是归根到底还是脱离不开上面的这些情况，只要理解了这些情况在我们开发的过程中就能避免很多 this 错误的问题。
