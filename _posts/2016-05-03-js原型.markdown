@@ -1,10 +1,10 @@
 ---
 layout: post
-title: js原型解析
+title: js原型和继承
 date: 2016-05-03 15:45:20
-description: 
+description:
 categories: [Javascript]
-tags: [ 原型链, 原型]
+tags: [原型链, 原型]
 image: assets/images/5.jpg
 ---
 
@@ -55,4 +55,111 @@ console.log(Object.prototype.isPrototypeOf(Function))
 该函数的 prototype 属性值将被作为原型赋值给所有对象实例（也就是设置实例的**proto**属性），
 也就是说，所有实例的原型引用的是函数的 prototype 属性。
 
-###
+## new 对象
+
+我们先按照对原型的理解实现 new 的步骤
+
+```js
+function newFunc(...args) {
+  // 取出 args 数组第一个参数，即目标构造函数
+  const constructor = args.shift();
+
+  // 创建一个空对象，且这个空对象继承构造函数的 prototype 属性
+  // 即实现 obj.__proto__ === constructor.prototype
+  const obj = Object.create(constructor.prototype);
+
+  // 执行构造函数，得到构造函数返回结果
+  // 注意这里我们使用 apply，将构造函数内的 this 指向为 obj
+  const result = constructor.apply(obj, args);
+
+  // 如果造函数执行后，返回结果是对象类型，就直接返回，否则返回 obj 对象
+  return typeof result === "object" && result != null ? result : obj;
+}
+```
+
+## js 实现继承
+
+### ES5 实现
+
+    ```js
+    //  原型继承
+    Child.prototype = new Parent()
+    // 构造函数继承
+    function Child(){
+        Parent.call(this,args)
+    }
+    //组合继承
+    function Child (args1, args2) {
+        this.args2 = args2
+        Parent.call(this, args1)
+    }
+
+    Child.prototype = new Parent()
+    Child.prototype.constrcutor = Child
+    // 组合寄生继承
+    function inherit(Child, Parent) {
+        // 继承原型上的属性
+        Child.prototype = Object.create(Parent.prototype)
+
+        // 修复 constructor
+        Child.prototype.constructor = Child
+
+        // 存储超类
+        Child.super = Parent
+
+        // 静态属性继承
+        if (Object.setPrototypeOf) {
+            // setPrototypeOf es6
+            Object.setPrototypeOf(Child, Parent)
+        } else if (Child.__proto__) {
+            // __proto__ es6 引入，但是部分浏览器早已支持
+            Child.__proto__ = Parent
+        } else {
+            // 兼容 IE10 等陈旧浏览器
+            // 将 Parent 上的静态属性和方法拷贝一份到 Child 上，不会覆盖 Child 上的方法
+            for (var k in Parent) {
+                if (Parent.hasOwnProperty(k) && !(k in Child)) {
+                    Child[k] = Parent[k]
+                }
+            }
+        }
+
+    }
+
+    ```
+
+### ES6 实现
+
+```js
+class Person {
+  constructor() {
+    this.type = "person";
+  }
+}
+
+class Student extends Person {
+  constructor() {
+    super(); // 继承 父类属性和方法
+  }
+}
+
+// babel解析之后的继承
+
+var Student = (function (_Person) {
+  // 实现对父类原型链属性的继承
+  _inherits(Student, _Person);
+
+  // 将会返回这个函数作为完整的 Student 构造函数
+  function Student() {
+    // 使用检测
+    _classCallCheck(this, Student);
+    // _get 的返回值可以先理解为父类构造函数
+    _get(Object.getPrototypeOf(Student.prototype), "constructor", this).call(
+      this
+    );
+  }
+
+  return Student;
+})(Person);
+
+```
