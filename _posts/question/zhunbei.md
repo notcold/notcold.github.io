@@ -14,11 +14,9 @@ animation:动画名 时间   次数
 
 5. rem
 动态计算根节点font-size
-```js
-<script>!function(e){function t(a){if(i[a])return i[a].exports;var n=i[a]={exports:{},id:a,loaded:!1};return e[a].call(n.exports,n,n.exports,t),n.loaded=!0,n.exports}var i={};return t.m=e,t.c=i,t.p="",t(0)}([function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var i=window;t["default"]=i.flex=function(e,t){var a=e||100,n=t||1,r=i.document,o=navigator.userAgent,d=o.match(/Android[\S\s]+AppleWebkit\/(\d{3})/i),l=o.match(/U3\/((\d+|\.){5,})/i),c=l&&parseInt(l[1].split(".").join(""),10)>=80,p=navigator.appVersion.match(/(iphone|ipad|ipod)/gi),s=i.devicePixelRatio||1;p||d&&d[1]>534||c||(s=1);var u=1/s,m=r.querySelector('meta[name="viewport"]');m||(m=r.createElement("meta"),m.setAttribute("name","viewport"),r.head.appendChild(m)),m.setAttribute("content","width=device-width,user-scalable=no,initial-scale="+u+",maximum-scale="+u+",minimum-scale="+u),r.documentElement.style.fontSize=a/2*s*n+"px"},e.exports=t["default"]}]);  flex(100, 1);</script>
-```
 
-6. 各种居中
+
+1. 各种居中
 
 绝对定位加transform
 flex
@@ -86,43 +84,7 @@ a =1
 var a;变量提升
 6.遍历相关⽅方法，区别，性能 
 while for()  for in  for of  forEach
-7.amd，cmd 
 
-CMD推崇依赖就近，AMD推崇依赖前置
-```js
-
-
-//AMD requireJS
-
-//包装
-define(function(require, exports, module) {
-    var a = require('a'),
-          b = require('b');
-
-    exports.action = function() {};
-} );
-//加载
-require(['math'], function(math) {
-　math.add(2, 3);
-});
-
-//CMD seaJS
-
-define(function (requie, exports, module) {
-     
-    //依赖可以就近书写
-    var a = require('./a');
-    a.test();
-     
-    //...
-    //软依赖
-    if (status) {
-     
-        var b = requie('./b');
-        b.test();
-    }
-});
-```
 8.对象相关:
 原型链 _ proto _ 和prototype的区别 new怎么实现的 object.create怎么实现的 继承怎么实现的 深拷⻉，浅拷贝 object.assign原理
 

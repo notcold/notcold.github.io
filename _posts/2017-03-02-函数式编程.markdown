@@ -155,7 +155,7 @@ numbers.map(plus1);
 ## 组合
 
 通过组合两个或更多的函数生成一个新的函数
-###1. 组合两个函数生成一个新的函数
+### 组合两个函数生成一个新的函数
 
 ```js
 const compose = (f,g) => x => f(g(x));
@@ -187,7 +187,7 @@ reallyAngry("stop this");
 ## 解构
 
 从数组中提取数据或对象使用一种语法混合数组和对象文本的建设。或“模式匹配”。
-###1. Select from pattern
+### 1. Select from pattern
 
 ```js
 const foo = () => [1, 2, 3];
@@ -197,7 +197,7 @@ console.log(a, b);
 // 1 2
 ```
 
-###2. 接收 rest 值
+### 2. 接收 rest 值
 
 ```js
 const [a, ...b] = [1, 2, 3];
@@ -205,7 +205,7 @@ console.log(a, b);
 // 1 [2, 3]
 ```
 
-###3. 可选参数
+### 3. 可选参数
 
 ```js
 const ajax = ({ url = "localhost", port: p = 80}, ...data)  =>
@@ -230,7 +230,7 @@ student("Matt")(8);
 // Name: Matt | score: 8
 ```
 
-###2. 加法函数柯里化
+### 2. 加法函数柯里化
 
 ```js
 const add = x => y => x + y;

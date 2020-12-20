@@ -5,3 +5,8 @@ Gemfile.lock
 .sass-cache
 *~
 .jekyll-cache
+*.gem
+.bundle
+.sass-cache
+_site
+.DS_Store
