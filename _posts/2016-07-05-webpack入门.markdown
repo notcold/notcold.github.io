@@ -6,7 +6,6 @@ categories:
  - engineering 
 tags: 
  - webpack
-image: assets/images/5.jpg
 
 ---
 

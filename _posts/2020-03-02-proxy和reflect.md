@@ -4,7 +4,6 @@ title: proxy代理和reflect反射
 description: 逐渐拓展知识面
 categories: [js]
 tags: [es6]
-image:
 ---
 
 Proxy 代理

@@ -7,7 +7,6 @@ categories:
 tags: 
  - 函数
 
-image: assets/images/5.jpg
 ---
 
 

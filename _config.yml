@@ -4,13 +4,26 @@ title: "不冷的博客"
 description: "一个让自己沉淀的地方"
 logo: "assets/images/logo.png"
 favicon: "assets/images/logo.png"
-baseurl: ''
-google_analytics: 
+baseurl: ""
+google_analytics:
 disqus: "demowebsite"
 # mailchimp-list: "https://wowthemes.us11.list-manage.com/subscribe/post?u=8aeb20a530e124561927d3bd8&amp;id=8c3d2d214b"
 include: ["_pages"]
 permalink: /:title/
 email: shikuan1992@gmail.com
+
+texture:
+  title: 不冷
+  tagline: Developer. Designer
+  date_format: "%b %-d, %Y"
+
+  social_links:
+    twitter: https://twitter.com/notcold
+    github: https://github.com/notcold
+    email: shikuan1992@gmail.com
+    linkedIn: # format: locale/username
+  style: [black]
+  showPicker: [true] # show the texture selector(development purposes)
 
 # Authors
 authors:
@@ -18,7 +31,6 @@ authors:
     name: notcold
     display_name: 不冷
     gravatar: e56154546cf4be74e393c62d1ae9f9d4
-    email: shikuan1992@gmail.com
     web:
     twitter: https://twitter.com/notcold
     description: ""
@@ -68,3 +80,5 @@ sass:
   style: compressed
 
 exclude: [changelog.md, LICENSE.txt, README.md, Gemfile, Gemfile.lock]
+remote_theme: thelehhman/texture
+theme: texture

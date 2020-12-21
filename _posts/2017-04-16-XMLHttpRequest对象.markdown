@@ -7,7 +7,6 @@ categories:
 tags: 
  - ajax
 
-image: assets/images/5.jpg
 
 ---
 

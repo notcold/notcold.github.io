@@ -7,7 +7,6 @@ categories:
 tags:
   - 算法
 
-image: assets/images/5.jpg
 ---
 
 ## 冒泡排序
