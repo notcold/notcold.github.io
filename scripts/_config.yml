@@ -1,7 +1,7 @@
 # Setup
-title: Not Pure Poole
-description: A simple, beautiful, and powerful Jekyll theme for blogs
-url: https://vszhub.github.io
+title: 不冷的小院
+description: 菜鸟的学习笔记
+url: https://notcold.github.io
 avatar: /avatar.jpg
 paginate: 5
 permalink: pretty
@@ -29,14 +29,14 @@ exclude:
 
 # Optimize Jekyl SEO Tag
 twitter:
-  username: vszhub
+  username: notcold
   card: summary
 logo: logo.png
 social:
-  name: Songzi Vong
+  name: notcold
   links:
-    - https://twitter.com/vszhub
-    - https://github.com/vszhub
+    - https://twitter.com/notcold
+    - https://github.com/notcold
 google_site_verification: xxxxx
 lang: en
 
@@ -54,6 +54,6 @@ sass:
 
 # Specify the author for blog posts
 author:
-  name: Songzi Vong
-  url: https://github.com/vszhub/
-  email: vszhub@gmail.com
+  name: notcold
+  url: https://github.com/notcold/
+  email: shikuan1992@gmail.com
