@@ -114,9 +114,9 @@ analytics:
 author:
   name             : "notcold"
   avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
-  bio              : "I am an **amazing** person."
-  location         : "Somewhere"
-  email            :
+  bio              : "有理想的菜鸟."
+  location         : "杭州"
+  email            : "shikuan1992@gmail.com"
   links:
     - label: "Email"
       icon: "fas fa-fw fa-envelope-square"
