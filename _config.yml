@@ -118,9 +118,6 @@ author:
   location         : "杭州"
   email            : "shikuan1992@gmail.com"
   links:
-    - label: "Email"
-      icon: "fas fa-fw fa-envelope-square"
-      url: "https://shikuan1992@gmail.com"
     - label: "Website"
       icon: "fas fa-fw fa-link"
       url: "https://www.skaity.top"
