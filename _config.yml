@@ -139,7 +139,7 @@ footer:
       url: "https://twitter.com/notcold"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-     url: "https://github.com/notcold"
+      url: "https://github.com/notcold"
 
 
 # Reading Files
