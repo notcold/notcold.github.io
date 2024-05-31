@@ -287,3 +287,9 @@ Lunr is distributed under the terms of the [MIT License](http://opensource.org/l
 Minimal Mistakes incorporates [clipboard.js](https://clipboardjs.com/),
 Copyright (c) 2021 Zeno Rocha.
 Clipboard.js is distributed under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+
+
+##
+```
+docker run -v /notcold.github.io/:/home/mypage --entrypoint /bin/sh  -p 4000:4000 notcold/sk-githubpage:0531 -c "bundle install && bundle exec jekyll serve --watch --force_polling --host 0.0.0.0"
+```
