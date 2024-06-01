@@ -1,5 +1,5 @@
 ---
-layout: post
+
 title: Promise在Axios拦截器的应用
 description: Axios通过Promise的链式调用实现拦截器
 categories:

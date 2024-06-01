@@ -1,5 +1,5 @@
 ---
-layout: post
+
 title: eslint config
 description: js quality
 categories:

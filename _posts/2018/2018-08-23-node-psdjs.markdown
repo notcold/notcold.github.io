@@ -1,5 +1,5 @@
 ---
-layout: post
+
 title: 解析psd文件转换成可用代码
 description: 通过node服务对psd设计稿进行解析，分解出图片，样式，根据获取到的数据重新拼装成静态页面
 categories:

@@ -1,5 +1,5 @@
 ---
-layout: post
+
 title: js原型和继承
 date: 2016-05-03 15:45:20
 description:

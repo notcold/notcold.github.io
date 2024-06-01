@@ -1,5 +1,5 @@
 ---
-layout: post
+
 title: js事件机制
 description: js中click事件等的运行机制
 categories: [Javascript]
