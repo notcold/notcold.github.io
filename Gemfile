@@ -1,4 +1,4 @@
-source "https://rubygems.org"
+source "https://mirrors.aliyun.com/rubygems"
 
 # Manage our dependency on the version of the github-pages gem here.
 gem "github-pages", "= 231"
