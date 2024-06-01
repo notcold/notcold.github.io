@@ -48,7 +48,11 @@ console.log(Object.prototype.isPrototypeOf(Function))
 
 ```
 
-原型关系![图片]({{site.url}}/assets/images/prototype/prototype.png)
+<figure>
+  <img src="{{ '/assets/images/prototype/prototype.png'}}" alt="teaser image example">
+  原型关系
+</figure>
+
 
 在 JavaScript 中，每个函数都有一个 prototype 属性，当一个函数被用作构造函数来创建实例时，
 该函数的 prototype 属性值将被作为原型赋值给所有对象实例（也就是设置实例的**proto**属性），

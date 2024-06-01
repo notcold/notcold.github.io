@@ -12,7 +12,10 @@ tags: [源码]
 React 的 schedule 原理
 花了一个大概的图简单描述一个任务进入调度到他执行的过程。
 
-调度![图片]({{site.url}}/assets/images/react/schedule.png)
+ <figure>
+  <img src="{{ '/assets/images/react/schedule.png'}}" title="链表数据结构" alt="teaser image example">
+</figure>
+
 
 > 下面是代码的流转过程
 
